@@ -1,0 +1,63 @@
+# Environment Variables
+.env
+*.env
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# Django-specific
+*.sqlite3
+db.sqlite3
+/media/
+staticfiles/
+static/
+node_modules/
+# IDE specific files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Migrations
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# Testing and Coverage
+.coverage
+htmlcov/
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+*.mo
+*.pot
+
+# Deployment-related files
+*.pem
+*.key
+*.crt
+*.pub
+
+# Docker
+*.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Python Packages
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Pip dependency files
+Pipfile
+Pipfile.lock
+requirements.txt
