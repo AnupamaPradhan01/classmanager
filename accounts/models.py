@@ -12,5 +12,18 @@ class CustomUser(AbstractUser):
     )
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
 
+    groups = models.ManyToManyField(
+        "auth.Group",
+        related_name="customuser_groups",  # Custom related_name
+        blank=True,
+        help_text="The groups this user belongs to.",
+    )
+    user_permissions = models.ManyToManyField(
+        "auth.Permission",
+        related_name="customuser_permissions",  # Custom related_name
+        blank=True,
+        help_text="Specific permissions for this user.",
+    )
+
     def __str__(self):
         return self.username
