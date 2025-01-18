@@ -1,8 +1,9 @@
 # Class Manager Project - TODO List
 
 ## Features to Implement
-- [ ] User authentication (login/logout).
-- [ ] Role-based access (admin, teacher, student).
+- [x] User authentication (login/logout).
+- [x] Role-based access (teacher, student, parents, classmonitor).
+- [ ] Profile Management(allow users to view, update, and manage their personal information)
 - [ ] Class schedules and timetables.
 - [ ] Assignments and submission tracking.
 - [ ] Notifications for updates and deadlines.
@@ -13,6 +14,7 @@
 - [ ] Write serializers for API endpoints.
 
 ## Frontend Tasks
+- [x] created user accounts dashboard .
 - [ ] Design responsive templates using HTML/CSS.
 - [ ] Implement forms for user input.
 

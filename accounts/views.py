@@ -12,7 +12,9 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("dashboard")  # Redirect after login
+            return role_based_redirect(request)  # Redirect after login
+        else:
+            print(form.errors)
     else:
         form = UserRegistrationForm()
     return render(request, "accounts/register.html", {"form": form})
@@ -26,7 +28,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect("dashboard")
+            return role_based_redirect(request)
         else:
             return render(
                 request, "accounts/login.html", {"error": "Invalid credentials"}
@@ -42,14 +44,15 @@ def user_logout(request):
 
 # Dashboard - Role-based views
 @login_required
-def dashboard(request):
-    if request.user.role == "teacher":
-        return render(request, "accounts/teacher_dashboard.html")
-    elif request.user.role == "student":
-        return render(request, "accounts/student_dashboard.html")
-    elif request.user.role == "monitor":
-        return render(request, "accounts/monitor_dashboard.html")
-    elif request.user.role == "parent":
-        return render(request, "accounts/parent_dashboard.html")
+def role_based_redirect(request):
+    user = request.user
+    if user.role == "student":
+        return redirect("student_dashboard")
+    elif user.role == "teacher":
+        return redirect("teacher_dashboard")
+    elif user.role == "parent":
+        return redirect("parent_dashboard")
+    elif user.role == "monitor":
+        return redirect("monitor_dashboard")
     else:
         return redirect("login")
