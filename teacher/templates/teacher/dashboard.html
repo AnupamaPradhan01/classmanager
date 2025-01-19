@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+{% block dashboard_title %}Welcome to Teacher Dashboard{% endblock %}
+
+{% block content %}
+ <!-- Main Content -->
+ <div class="container">
+    <div class="row mb-4">
+        <!-- Profile Section -->
+        <div class="col-md-4">
+            <div class="profile-section p-4 text-center">
+                <!-- Profile Image -->
+                <img src="" alt="Profile" class="profile-img img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                
+                <!-- Name and Role -->
+                <h5 class="mb-1">{{ user.username }}</h5>
+                <p class="mb-3">{{ user.role }}</p>
+                
+                <!-- Buttons -->
+                <div class="d-flex justify-content-around">
+                    <button class="btn btn-primary btn-sm">Edit Profile</button>
+                    <button class="btn btn-danger btn-sm logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Cards -->
+        <div class="col-md-8">
+            <div class="row">
+                <!-- Profile Management -->
+                <div class="col-sm-6 mb-4">
+                    <div class="card bg-light text-center p-3">
+                        <h6>Profile Management</h6>
+                        <p>Update your profile information</p>
+                        <a href="" class="btn btn-primary btn-sm">Manage Profile</a>
+                    </div>
+                </div>
+                <!-- Class Management -->
+                <div class="col-sm-6 mb-4">
+                    <div class="card bg-light text-center p-3">
+                        <h6>Class Management</h6>
+                        <p>View and manage your assigned classes</p>
+                        <a href="" class="btn btn-primary btn-sm">Manage Classes</a>
+                    </div>
+                </div>
+                <!-- Attendance -->
+                <div class="col-sm-6 mb-4">
+                    <div class="card bg-light text-center p-3">
+                        <h6>Attendance</h6>
+                        <p>Mark attendance for students</p>
+                        <a href="" class="btn btn-primary btn-sm">Mark Attendance</a>
+                    </div>
+                </div>
+                <!-- Assignments -->
+                <div class="col-sm-6 mb-4">
+                    <div class="card bg-light text-center p-3">
+                        <h6>Assignments</h6>
+                        <p>Create and review assignments</p>
+                        <a href="" class="btn btn-primary btn-sm">Manage Assignments</a>
+                    </div>
+                </div>
+                <!-- Exams -->
+                <div class="col-sm-6 mb-4">
+                    <div class="card bg-light text-center p-3">
+                        <h6>Exams</h6>
+                        <p>Schedule exams and record results</p>
+                        <a href="" class="btn btn-primary btn-sm">Manage Exams</a>
+                    </div>
+                </div>
+                <!-- Notifications -->
+                <div class="col-sm-6 mb-4">
+                    <div class="card bg-light text-center p-3">
+                        <h6>Notifications</h6>
+                        <p>Send updates to students</p>
+                        <a href="" class="btn btn-primary btn-sm">Send Notifications</a>
+                    </div>
+                </div>
+                <!-- Timetable Management -->
+                <div class="col-sm-6 mb-4">
+                    <div class="card bg-light text-center p-3">
+                        <h6>Timetable Management</h6>
+                        <p>Update and share schedules</p>
+                        <a href="" class="btn btn-primary btn-sm">Manage Timetable</a>
+                    </div>
+                </div>
+                <!-- Communication -->
+                <div class="col-sm-6 mb-4">
+                    <div class="card bg-light text-center p-3">
+                        <h6>Communication</h6>
+                        <p>Message students and parents</p>
+                        <a href="" class="btn btn-primary btn-sm">Start Communication</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

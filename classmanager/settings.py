@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "classroom",
     "accounts",
     "student",
     "teacher",
@@ -62,7 +61,7 @@ ROOT_URLCONF = "classmanager.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],  # Ensure this line is set
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
