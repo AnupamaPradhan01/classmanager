@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Manage Timetable{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Manage Timetable</h2>
+
+    <!-- Feedback Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Add Timetable Form -->
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-md-3">
+                <label for="day">Day:</label>
+                <select id="day" name="day" class="form-control" required>
+                    <option value="" selected disabled>Select a day</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+                <label for="class_name">Class:</label>
+                <input type="text" id="class_name" name="class_name" class="form-control" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Timetable</button>
+    </form>
+
+    <!-- Timetable List -->
+    <h3 class="mt-4">Existing Timetables</h3>
+    {% if page_obj %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Class</th>
+                    <th>Subject</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for timetable in page_obj %}
+                    <tr>
+                        <td>{{ timetable.day }}</td>
+                        <td>{{ timetable.class_name }}</td>
+                        <td>{{ timetable.subject }}</td>
+                        <td>{{ timetable.time }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- Pagination Controls -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% else %}
+        <p>No timetables found.</p>
+    {% endif %}
+</div>
+{% endblock content %}
