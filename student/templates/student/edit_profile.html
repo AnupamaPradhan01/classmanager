@@ -1,0 +1,22 @@
+<!-- student/templates/student/edit_profile.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Edit Profile</h2>
+
+<!-- Profile Edit Form -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <!-- Display Form Fields -->
+    <div class="form-group">
+        {{ form.as_p }}  <!-- Render all form fields as paragraphs -->
+    </div>
+    
+    <!-- Save Button -->
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<!-- Link to view profile page after editing -->
+<a href="{% url 'view_profile' %}">View Profile</a>
+{% endblock %}

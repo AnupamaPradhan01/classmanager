@@ -1,0 +1,27 @@
+<!-- student/templates/student/view_profile.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Your Profile</h2>
+
+<!-- Display Profile Information -->
+<p><strong>Roll Number:</strong> {{ profile.roll_number }}</p>
+<p><strong>Class Name:</strong> {{ profile.class_name }}</p>
+<p><strong>Section:</strong> {{ profile.section }}</p>
+<p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
+<p><strong>Address:</strong> {{ profile.address }}</p>
+<p><strong>Contact Number:</strong> {{ profile.contact_number }}</p>
+<p><strong>Parent Name:</strong> {{ profile.parent_name }}</p>
+<p><strong>Parent Contact:</strong> {{ profile.parent_contact_number }}</p>
+<p><strong>Admission Date:</strong> {{ profile.admission_date }}</p>
+
+<!-- Display Profile Photo if available -->
+{% if profile.profile_photo %}
+    <img src="{{ profile.profile_photo.url }}" alt="Profile Photo" style="width:150px;height:150px;">
+{% else %}
+    <p>No profile photo uploaded.</p>
+{% endif %}
+
+<!-- Link to edit profile page -->
+<a href="{% url 'edit_profile' %}">Edit Profile</a>
+{% endblock %}
