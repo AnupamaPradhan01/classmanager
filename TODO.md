@@ -10,8 +10,8 @@
 
 ## Backend Tasks
 - [x] Set up Django project and app structure.
-- [ ] Create database models for users, classes, and tasks.
-- [ ] Write serializers for API endpoints.
+- [x] Create database models for customuser,studentprofile,teachertimetable.
+- [x] Student profile management
 
 ## Frontend Tasks
 - [x] created user accounts dashboard .
@@ -32,5 +32,37 @@
 - Add a README.md file for project documentation.
 - Include requirements.txt for dependencies.
 
+## Features to implement in student app(modules)
+- [ ] profile management
+      [] view and edit profile
+      [] Change password and manage accounts
+- [ ] Attendance
+      [] Overall attendance in percentage
+      [] show subject wise or date wise attendance
+      [] notifications for low attendance
+- [ ] Grades/performance
+      [] view grades or scores for assginments and exam
+      [] subject wise grade breakdown
+      [] graphical representation
+- [ ] Timetable
+      [] view daily or weekly class schedules
+      [] Highlight ongoing or upcoming classes
+      [] display class timings & details     
+- [ ] Assignments
+      [] list of pending & completed assignments
+      [] assignments details,including due dates, submission links & status
+      [] notifications for upcoming deadlines
+- [ ] Exams
+      [] Display exam schedule
+      [] Subject-wise exam details(eg:syllabus,date,time)
+      [] Access to past exam results
+- [ ] Notifications/announcements:
+      [] display school-wide or class specific announcements
+      [] notifications about deadlines, events or updates
+      [] filter options for viewing unread notifications
+- [ ] Communication
+      [] direct messaging or email functionality to contact
+      [] Discussion boards for group activities or queries
+      [] Announcements from teachers or admin     
 
 

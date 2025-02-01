@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Class Timetable{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Your Class Timetable</h2>
+    
+    {% if timetables %}
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Subject</th>
+                    <th>Teacher</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for timetable in timetables %}
+                    <tr>
+                        <td>{{ timetable.day }}</td>
+                        <td>{{ timetable.time }}</td>
+                        <td>{{ timetable.subject }}</td>
+                        <td>{{ timetable.teacher.username }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No timetable available for your class yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

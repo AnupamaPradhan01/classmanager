@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Mark Attendance</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="student">Select Student:</label>
+    <select id="student" name="student" required>
+        {% for student in students %}
+            <option value="{{ student.id }}">{{ student.username }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="status">Attendance Status:</label>
+    <select id="status" name="status" required>
+        <option value="Present">Present</option>
+        <option value="Absent">Absent</option>
+    </select>
+
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject" required>
+
+    <label for="class_name">Class Name:</label>
+    <input type="text" id="class_name" name="class_name" required>
+
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

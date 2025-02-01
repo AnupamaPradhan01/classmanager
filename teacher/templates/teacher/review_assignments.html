@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Assignments</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Class</th>
+            <th>Deadline</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for assignment in assignments %}
+        <tr>
+            <td>{{ assignment.title }}</td>
+            <td>{{ assignment.class_name }}</td>
+            <td>{{ assignment.deadline }}</td>
+            <td><a href="{% url 'grade_submission' submission.id %}">Review Submissions</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
