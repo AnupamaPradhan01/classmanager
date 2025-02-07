@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Manage Exams</h2>
+
+    <!-- Display success or error messages -->
+    {% if messages %}
+        <ul class="alert-list">
+            {% for message in messages %}
+                <li class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="class_name">Class:</label>
+            <input type="text" id="class_name" name="class_name" class="form-control" placeholder="Enter assigned class name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter subject" required>
+        </div>
+
+        <div class="form-group">
+            <label for="exam_date">Exam Date:</label>
+            <input type="date" id="exam_date" name="exam_date" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="start_time">Start Time:</label>
+            <input type="time" id="start_time" name="start_time" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="end_time">End Time:</label>
+            <input type="time" id="end_time" name="end_time" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes" class="form-control" placeholder="Optional exam notes"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Schedule Exam</button>
+    </form>
+
+    <h3 class="mt-5">Scheduled Exams</h3>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exam in exams %}
+                <tr>
+                    <td>{{ exam.class_name }}</td>
+                    <td>{{ exam.subject }}</td>
+                    <td>{{ exam.exam_date }}</td>
+                    <td>{{ exam.start_time }} to {{ exam.end_time }}</td>
+                    <td>
+                        <a href="{% url 'manage_exam_papers' exam.id %}" class="btn btn-info btn-sm">Upload Paper</a>
+                        {% if exam.question_paper %}
+                            <a href="{{ exam.question_paper.url }}" class="btn btn-success btn-sm" download>Download</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">No exams scheduled yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -19,7 +19,7 @@
                 
                 <!-- Buttons -->
                 <div class="d-flex justify-content-around">
-                    <button class="btn btn-primary btn-sm">Edit Profile</button>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-sm">Edit Profile</a>
                     <button class="btn btn-danger btn-sm logout-btn">Logout</button>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     <div class="card bg-light text-center p-3">
                         <h6>Profile Management</h6>
                         <p>Update your profile information</p>
-                        <a href="" class="btn btn-primary btn-sm">Manage Profile</a>
+                        <a href="{% url 'profile' %}" class="btn btn-primary btn-sm">Manage Profile</a>
                     </div>
                 </div>
                 <!-- Class Management -->
@@ -65,7 +65,7 @@
                     <div class="card bg-light text-center p-3">
                         <h6>Exams</h6>
                         <p>Schedule exams and record results</p>
-                        <a href="" class="btn btn-primary btn-sm">Manage Exams</a>
+                        <a href="{% url 'manage_exams' %}" class="btn btn-primary btn-sm">Manage Exams</a>
                     </div>
                 </div>
                 <!-- Notifications -->

@@ -6,6 +6,22 @@ from django.db import models
 User = get_user_model()
 
 
+class TeacherProfile(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="teacher_profile"
+    )
+    full_name = models.CharField(max_length=150)
+    subject_specialization = models.CharField(max_length=100)
+    assigned_classes = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15)
+    profile_photo = models.ImageField(
+        upload_to="teacher_photos/", blank=True, null=True
+    )
+
+    def __str__(self):
+        return f"{self.user.username} - {self.full_name or 'No Name'}"
+
+
 class Timetable(models.Model):
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="created_timetables"
@@ -77,3 +93,28 @@ class Submission(models.Model):
 
     def __str__(self):
         return f"{self.assignment.title} - {self.student.username}"
+
+
+class ExamSchedule(models.Model):
+    teacher = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="scheduled_exams"
+    )
+    class_name = models.CharField(max_length=50)
+    subject = models.CharField(max_length=100)
+    exam_date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    notes = models.TextField(null=True, blank=True)
+    question_paper = models.FileField(upload_to="exam_papers/", null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.class_name} - {self.subject} ({self.exam_date})"
+
+    # Optional validation to ensure the teacher schedules exams only for their assigned classes
+    def clean(self):
+        if self.class_name not in self.teacher.teacher_profile.assigned_classes.split(
+            ","
+        ):
+            raise ValidationError(
+                "Teacher can only schedule exams for their assigned classes."
+            )

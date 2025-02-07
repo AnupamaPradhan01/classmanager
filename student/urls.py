@@ -19,4 +19,5 @@ urlpatterns = [
         views.submit_assignment,
         name="submit_assignment",
     ),
+    path("exam-schedule/", views.view_exam_schedule, name="view_exam_schedule"),
 ]

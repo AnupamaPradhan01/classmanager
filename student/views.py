@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from teacher.models import Assignment, Attendance, Submission, Timetable
+from teacher.models import Assignment, Attendance, ExamSchedule, Submission, Timetable
 
 from .forms import StudentProfileForm
 from .models import StudentProfile
@@ -87,3 +87,12 @@ def submit_assignment(request, assignment_id):
         messages.success(request, "Assignment submitted successfully!")
         return redirect("view_assignments")
     return render(request, "student/submit_assignment.html", {"assignment": assignment})
+
+
+@login_required
+def view_exam_schedule(request):
+    student_profile = request.user.student_profile
+    exams = ExamSchedule.objects.filter(class_name=student_profile.class_name).order_by(
+        "exam_date"
+    )
+    return render(request, "student/exam_schedule.html", {"exams": exams})

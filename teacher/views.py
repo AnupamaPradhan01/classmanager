@@ -3,7 +3,38 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
-from teacher.models import Assignment, Attendance, Submission, Timetable
+from teacher.forms import ExamPaperForm, TeacherProfileUpdateForm
+from teacher.models import (
+    Assignment,
+    Attendance,
+    ExamSchedule,
+    Submission,
+    TeacherProfile,
+    Timetable,
+)
+
+
+@login_required
+def view_teacher_profile(request):
+    profile = get_object_or_404(TeacherProfile, user=request.user)
+    return render(request, "teacher/profile.html", {"profile": profile})
+
+
+@login_required
+def edit_teacher_profile(request):
+    profile = get_object_or_404(TeacherProfile, user=request.user)
+
+    # Only allow editing specific fields, NOT `assigned_classes`
+    if request.method == "POST":
+        form = TeacherProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect("profile")
+    else:
+        form = TeacherProfileUpdateForm(instance=profile)
+
+    return render(request, "teacher/edit_profile.html", {"form": form})
 
 
 @login_required
@@ -72,6 +103,12 @@ def mark_attendance(request):
         return redirect("mark_attendance")
 
     students = CustomUser.objects.filter(role="student")
+    selected_class = request.GET.get(
+        "class_name"
+    )  # Get the class from the URL parameter if needed
+    if selected_class:
+        students = students.filter(student_profile__class_name=selected_class)
+
     classes = students.values_list("student_profile__class_name", flat=True).distinct()
     return render(
         request,
@@ -122,3 +159,49 @@ def grade_submission(request, submission_id):
         return redirect("review_assignments")
 
     return render(request, "teacher/grade_submission.html", {"submission": submission})
+
+
+@login_required
+def manage_exams(request):
+    teacher_profile = request.user.teacher_profile
+    if request.method == "POST":
+        class_name = request.POST.get("class_name")
+        subject = request.POST.get("subject")
+        exam_date = request.POST.get("exam_date")
+        start_time = request.POST.get("start_time")
+        end_time = request.POST.get("end_time")
+        notes = request.POST.get("notes")
+        if class_name not in teacher_profile.assigned_classes.split(","):
+            messages.error(
+                request, "You can only schedule exams for your assigned classes."
+            )
+            return redirect("manage_exams")
+
+        ExamSchedule.objects.create(
+            teacher=request.user,
+            class_name=class_name,
+            subject=subject,
+            exam_date=exam_date,
+            start_time=start_time,
+            end_time=end_time,
+            notes=notes,
+        )
+        return redirect("manage_exams")
+
+    exams = ExamSchedule.objects.all().order_by("exam_date")
+    return render(request, "teacher/manage_exams.html", {"exams": exams})
+
+
+@login_required
+def manage_exam_papers(request, exam_id):
+    exam = get_object_or_404(ExamSchedule, id=exam_id)
+    if request.method == "POST":
+        form = ExamPaperForm(request.POST, request.FILES, instance=exam)
+        if form.is_valid():
+            form.save()
+            return redirect("manage_exams")
+    else:
+        form = ExamPaperForm(instance=exam)
+    return render(
+        request, "teacher/manage_exam_paper.html", {"form": form, "exam": exam}
+    )

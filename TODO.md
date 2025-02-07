@@ -33,8 +33,8 @@
 - Include requirements.txt for dependencies.
 
 ## Features to implement in student app(modules)
-- [ ] profile management
-      [] view and edit profile
+- [x] profile management
+      [x] view and edit profile
       [] Change password and manage accounts
 - [ ] Attendance
       [] Overall attendance in percentage
@@ -44,7 +44,8 @@
       [] view grades or scores for assginments and exam
       [] subject wise grade breakdown
       [] graphical representation
-- [ ] Timetable
+- [x] Timetable
+      [x]view class timetable
       [] view daily or weekly class schedules
       [] Highlight ongoing or upcoming classes
       [] display class timings & details     
@@ -64,5 +65,40 @@
       [] direct messaging or email functionality to contact
       [] Discussion boards for group activities or queries
       [] Announcements from teachers or admin     
-
+## Features to implement in Teacher app(modules)
+- [ ] profile management
+      [] view and update personal information(name,email,phoneno)
+      [] Change password and manage accounts
+- [ ] class management
+      [] view assigned classes
+      [] add,update,delete class schedules
+      [] assign class monitors
+- [] Attendance
+      [] mark attendance for students
+      [] view monthly/weekly attendance summaries
+      [] generate attendance reports
+- [ ] Assignments
+      [] create & distribute assignments to students
+      [] set deadlines for submissions
+      [] review & grade submitted assignments
+      [] provide feedback to students
+- [ ] Exams
+      [x] schedule exams for assigned classes
+      [x] upload exam questions papers
+      [] record/update student exam scores
+      [] generate grade records
+- [ ] Communication
+      [] Send messsages or announcements to students and parents
+      [] Receive queries from students/parents
+      [] maintain a message history
+- [x] Timetable MAnagement
+      [x] create class timetable
+      [] update/swap class schedules with other teachers
+- [ ] Notifications
+      [] Receive notifications when upcoming deadlines(assignments,exams)
+      [] Get updates from the admin.
+- [ ] Patent Interaction
+      [] Schedule parent/teacher meetings 
+      [] Send progress updates to parents
+      [] share attendance & performace analysis         
 
