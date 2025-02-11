@@ -1,28 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2>Mark Attendance</h2>
+
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
 
 <form method="POST">
     {% csrf_token %}
-    <label for="student">Select Student:</label>
-    <select id="student" name="student" required>
-        {% for student in students %}
-            <option value="{{ student.id }}">{{ student.username }}</option>
+
+    <!-- Select Class -->
+    <label for="class_name">Select Class:</label>
+    <select id="class_name" name="class_name" required>
+        <option value="">--Select Class--</option>
+        {% for class in assigned_classes %}
+            <option value="{{ class }}">{{ class }}</option>
         {% endfor %}
     </select>
 
-    <label for="status">Attendance Status:</label>
-    <select id="status" name="status" required>
-        <option value="Present">Present</option>
-        <option value="Absent">Absent</option>
+    <!-- Select Subject -->
+    <label for="subject">Select Subject:</label>
+    <select id="subject" name="subject" required>
+        <option value="">--Select Subject--</option>
+        {% for subject in subjects %}
+            <option value="{{ subject }}">{{ subject }}</option>
+        {% endfor %}
     </select>
 
-    <label for="subject">Subject:</label>
-    <input type="text" id="subject" name="subject" required>
-
-    <label for="class_name">Class Name:</label>
-    <input type="text" id="class_name" name="class_name" required>
+    <h3>Students List</h3>
+    <table id="students_table">
+        <tr>
+            <th>Student Name</th>
+            <th>Status</th>
+        </tr>
+        {% for student in students %}
+        <tr data-class="{{ student.student_profile.class_name }}">
+            <td>{{ student.username }}</td>
+            <td>
+                <select name="status">
+                    <option value="Present">Present</option>
+                    <option value="Absent">Absent</option>
+                </select>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 
     <button type="submit">Submit</button>
 </form>
+
+<!-- JavaScript for Dynamic Student Filtering -->
+<script>
+document.getElementById("class_name").addEventListener("change", function () {
+    let selectedClass = this.value;
+    document.querySelectorAll("#students_table tr[data-class]").forEach(row => {
+        row.style.display = row.getAttribute("data-class") === selectedClass ? "table-row" : "none";
+    });
+});
+</script>
+
 {% endblock %}

@@ -10,10 +10,10 @@ class TeacherProfile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="teacher_profile"
     )
-    full_name = models.CharField(max_length=150)
-    subject_specialization = models.CharField(max_length=100)
-    assigned_classes = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=15)
+    full_name = models.CharField(max_length=150, default="Unknown")
+    subject_specialization = models.CharField(max_length=100, default="Not Specified")
+    assigned_classes = models.CharField(max_length=100, default="Not Assigned")
+    phone_number = models.CharField(max_length=15, default=000000)
     profile_photo = models.ImageField(
         upload_to="teacher_photos/", blank=True, null=True
     )
@@ -48,16 +48,26 @@ class Timetable(models.Model):
 
 class Attendance(models.Model):
     student = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="attendance_records"
+        User, on_delete=models.CASCADE, related_name="attendance_records"
     )
-    class_name = models.CharField(max_length=50)  # Specify class like "10-A"
+    class_name = models.CharField(max_length=50)  # Example: "10-A"
     date = models.DateField(auto_now_add=True)
     status = models.CharField(
         max_length=10, choices=[("Present", "Present"), ("Absent", "Absent")]
     )
-    subject = models.CharField(max_length=100)
+
+    subject = models.CharField(
+        max_length=100,
+        choices=[
+            ("Math", "Math"),
+            ("Science", "Science"),
+            ("English", "English"),
+        ],
+        default="English",  # Modify as needed
+    )
+
     teacher = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="marked_attendance"
+        User, on_delete=models.CASCADE, related_name="marked_attendance"
     )
 
     def __str__(self):

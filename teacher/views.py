@@ -86,34 +86,49 @@ def manage_timetable(request):
 
 @login_required
 def mark_attendance(request):
-    if request.method == "POST":
-        student_id = request.POST["student"]
-        status = request.POST["status"]
-        subject = request.POST["subject"]
-        class_name = request.POST["class_name"]
+    teacher_profile = getattr(request.user, "teacher_profile", None)
 
-        student = CustomUser.objects.get(id=student_id)
-        Attendance.objects.create(
-            student=student,
-            class_name=class_name,
-            status=status,
-            subject=subject,
-            teacher=request.user,
+    if not teacher_profile:
+        return render(
+            request,
+            "teacher/mark_attendance.html",
+            {"error": "No assigned classes found."},
         )
+
+    assigned_classes = teacher_profile.assigned_classes.split(
+        ","
+    )  # Convert CSV to list
+    students = CustomUser.objects.filter(
+        role="student", student_profile__class_name__in=assigned_classes
+    )
+
+    if request.method == "POST":
+        class_name = request.POST["class_name"]
+        subject = request.POST["subject"]
+        status_data = request.POST.getlist("status")  # List of statuses
+
+        selected_students = students.filter(student_profile__class_name=class_name)
+        for i, student in enumerate(selected_students):
+            Attendance.objects.create(
+                student=student,
+                class_name=class_name,
+                status=status_data[i],  # Assign respective status
+                subject=subject,
+                teacher=request.user,
+            )
+
         return redirect("mark_attendance")
 
-    students = CustomUser.objects.filter(role="student")
-    selected_class = request.GET.get(
-        "class_name"
-    )  # Get the class from the URL parameter if needed
-    if selected_class:
-        students = students.filter(student_profile__class_name=selected_class)
+    subjects = ["Math", "Science", "English"]  # Modify according to available subjects
 
-    classes = students.values_list("student_profile__class_name", flat=True).distinct()
     return render(
         request,
         "teacher/mark_attendance.html",
-        {"students": students, "classes": classes},
+        {
+            "students": students,
+            "assigned_classes": assigned_classes,
+            "subjects": subjects,
+        },
     )
 
 
