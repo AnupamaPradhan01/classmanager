@@ -67,14 +67,14 @@
       [] Announcements from teachers or admin     
 ## Features to implement in Teacher app(modules)
 - [ ] profile management
-      [] view and update personal information(name,email,phoneno)
+      [x] view and update personal information(name,email,phoneno)
       [] Change password and manage accounts
 - [ ] class management
       [] view assigned classes
       [] add,update,delete class schedules
       [] assign class monitors
 - [] Attendance
-      [] mark attendance for students
+      [x] mark attendance for students
       [] view monthly/weekly attendance summaries
       [] generate attendance reports
 - [ ] Assignments

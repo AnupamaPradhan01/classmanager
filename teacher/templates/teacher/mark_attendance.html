@@ -1,60 +1,95 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Mark Attendance</h2>
+<div class="container mt-4">
+    {% comment %} <div class="card shadow-lg p-4"> {% endcomment %}
+        <h2 class="text-center mb-4">Mark Attendance</h2>
 
-{% if error %}
-    <div class="alert alert-danger">{{ error }}</div>
-{% endif %}
+        {% if error %}
+            <div class="alert alert-danger text-center">{{ error }}</div>
+        {% endif %}
 
-<form method="POST">
-    {% csrf_token %}
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Two-column Layout -->
+            <div class="row">
+                
+                <!-- Left Section: Class & Subject Selection -->
+                <div class="col-md-4">
+                    <div class="p-3 border rounded bg-light">
+                        <h5 class="text-center">Select Details</h5>
 
-    <!-- Select Class -->
-    <label for="class_name">Select Class:</label>
-    <select id="class_name" name="class_name" required>
-        <option value="">--Select Class--</option>
-        {% for class in assigned_classes %}
-            <option value="{{ class }}">{{ class }}</option>
-        {% endfor %}
-    </select>
+                        <!-- Select Class -->
+                        <div class="mb-3">
+                            <label for="class_name" class="form-label fw-bold">Select Class:</label>
+                            <select id="class_name" name="class_name" class="form-select" required>
+                                <option value="">-- Select Class --</option>
+                                {% for class in assigned_classes %}
+                                    <option value="{{ class }}">{{ class }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-    <!-- Select Subject -->
-    <label for="subject">Select Subject:</label>
-    <select id="subject" name="subject" required>
-        <option value="">--Select Subject--</option>
-        {% for subject in subjects %}
-            <option value="{{ subject }}">{{ subject }}</option>
-        {% endfor %}
-    </select>
+                        <!-- Select Subject -->
+                        <div class="mb-3">
+                            <label for="subject" class="form-label fw-bold">Select Subject:</label>
+                            <select id="subject" name="subject" class="form-select" required>
+                                <option value="">-- Select Subject --</option>
+                                {% for subject in subjects %}
+                                    <option value="{{ subject }}">{{ subject }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-    <h3>Students List</h3>
-    <table id="students_table">
-        <tr>
-            <th>Student Name</th>
-            <th>Status</th>
-        </tr>
-        {% for student in students %}
-        <tr data-class="{{ student.student_profile.class_name }}">
-            <td>{{ student.username }}</td>
-            <td>
-                <select name="status">
-                    <option value="Present">Present</option>
-                    <option value="Absent">Absent</option>
-                </select>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+                <!-- Right Section: Students List -->
+                <div class="col-md-8">
+                    <div class="p-3 border rounded">
+                        <h5 class="text-center">Students List</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover text-center" id="students_table">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in students %}
+                                    <tr data-class="{{ student.student_profile.class_name }}">
+                                        <td class="align-middle">{{ student.username }}</td>
+                                        <td>
+                                            <select name="status_{{ student.id }}" class="form-select">
+                                                <option value="Present">Present</option>
+                                                <option value="Absent">Absent</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-    <button type="submit">Submit</button>
-</form>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success px-5 py-2">Submit Attendance</button>
+            </div>
+
+        </form>
+    {% comment %} </div> {% endcomment %}
+</div>
 
 <!-- JavaScript for Dynamic Student Filtering -->
 <script>
 document.getElementById("class_name").addEventListener("change", function () {
     let selectedClass = this.value;
-    document.querySelectorAll("#students_table tr[data-class]").forEach(row => {
+    document.querySelectorAll("#students_table tbody tr").forEach(row => {
         row.style.display = row.getAttribute("data-class") === selectedClass ? "table-row" : "none";
     });
 });

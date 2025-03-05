@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Teacher Dashboard{% endblock %}
@@ -8,10 +9,21 @@
  <div class="container">
     <div class="row mb-4">
         <!-- Profile Section -->
+        <!-- Profile Section -->
         <div class="col-md-4">
             <div class="profile-section p-4 text-center">
                 <!-- Profile Image -->
-                <img src="" alt="Profile" class="profile-img img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                {% if user.teacher_profile.profile_photo %}
+                    <img src="{{ user.teacher_profile.profile_photo.url }}" 
+                        alt="Profile" 
+                        class="profile-img img-fluid rounded-circle mb-3" 
+                        style="width: 150px; height: 150px;">
+                {% else %}
+                    <img src="" 
+                        alt="Profile" 
+                        class="profile-img img-fluid rounded-circle mb-3" 
+                        style="width: 150px; height: 150px;">
+                {% endif %}
                 
                 <!-- Name and Role -->
                 <h5 class="mb-1">{{ user.username }}</h5>
@@ -20,11 +32,11 @@
                 <!-- Buttons -->
                 <div class="d-flex justify-content-around">
                     <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-sm">Edit Profile</a>
-                    <button class="btn btn-danger btn-sm logout-btn">Logout</button>
+                    <a href="{% url 'logout' %}" class="btn btn-danger btn-sm logout-btn">Logout</a>
                 </div>
             </div>
         </div>
-        
+
         <!-- Dashboard Cards -->
         <div class="col-md-8">
             <div class="row">

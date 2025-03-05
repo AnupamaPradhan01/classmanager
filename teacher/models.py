@@ -18,6 +18,12 @@ class TeacherProfile(models.Model):
         upload_to="teacher_photos/", blank=True, null=True
     )
 
+    def get_assigned_classes(self):
+        return self.assigned_classes.split(",")
+
+    def get_subject_specialization(self):
+        return self.subject_specialization.split(",")
+
     def __str__(self):
         return f"{self.user.username} - {self.full_name or 'No Name'}"
 
@@ -25,7 +31,7 @@ class TeacherProfile(models.Model):
 class Timetable(models.Model):
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="created_timetables"
-    )  # Link timetable to teacher
+    )
     day = models.CharField(
         max_length=10,
         choices=[
@@ -40,7 +46,7 @@ class Timetable(models.Model):
     )
     subject = models.CharField(max_length=100)
     time = models.TimeField()
-    class_name = models.CharField(max_length=50)  # Specify class (e.g., "Class 10-A")
+    class_name = models.CharField(max_length=50)
 
     def __str__(self):
         return f"{self.class_name} - {self.day} - {self.subject} - {self.time}"
