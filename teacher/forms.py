@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import ExamSchedule, TeacherProfile
+from .models import ExamSchedule, TeacherProfile, Timetable
 
 
 class TeacherProfileUpdateForm(forms.ModelForm):
@@ -18,11 +18,6 @@ class ExamPaperForm(forms.ModelForm):
         fields = ["question_paper"]
 
 
-from django import forms
-
-from .models import ExamSchedule
-
-
 class ExamScheduleForm(forms.ModelForm):
     class Meta:
         model = ExamSchedule
@@ -35,3 +30,9 @@ class ExamScheduleForm(forms.ModelForm):
             "notes",
             "question_paper",
         ]
+
+
+class TimetableForm(forms.ModelForm):
+    class Meta:
+        model = Timetable
+        fields = ["day", "subject", "time", "class_name"]

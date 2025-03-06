@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import delete_exam, edit_exam
+from .views import delete_exam, delete_timetable, edit_exam, edit_timetable
 
 urlpatterns = [
     path("dashboard/", views.teacher_dashboard, name="teacher_dashboard"),
@@ -24,4 +24,10 @@ urlpatterns = [
     ),
     path("edit-exam/<int:exam_id>/", edit_exam, name="edit_exam"),
     path("delete-exam/<int:exam_id>/", delete_exam, name="delete_exam"),
+    path("edit_timetable/<int:timetable_id>/", edit_timetable, name="edit_timetable"),
+    path(
+        "delete_timetable/<int:timetable_id>/",
+        delete_timetable,
+        name="delete_timetable",
+    ),
 ]

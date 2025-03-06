@@ -3,7 +3,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
-from teacher.forms import ExamPaperForm, TeacherProfileUpdateForm
+from teacher.forms import (
+    ExamPaperForm,
+    ExamScheduleForm,
+    TeacherProfileUpdateForm,
+    TimetableForm,
+)
 from teacher.models import (
     Assignment,
     Attendance,
@@ -12,9 +17,6 @@ from teacher.models import (
     TeacherProfile,
     Timetable,
 )
-
-from .forms import ExamScheduleForm
-from .models import ExamSchedule
 
 
 @login_required
@@ -89,38 +91,28 @@ def manage_timetable(request):
     return render(request, "teacher/manage_timetable.html", {"page_obj": page_obj})
 
 
-# @login_required
-# def delete_timetable(request, timetable_id):
-#     timetable = get_object_or_404(Timetable, id=timetable_id, teacher=request.user)
-#     timetable.delete()
-#     messages.success(request, "Timetable entry deleted successfully.")
-#     return redirect("manage_timetable")
+@login_required
+def edit_timetable(request, timetable_id):
+    timetable = get_object_or_404(Timetable, id=timetable_id, teacher=request.user)
+
+    if request.method == "POST":
+        form = TimetableForm(request.POST, instance=timetable)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Timetable updated successfully.")
+            return redirect("manage_timetable")
+    else:
+        form = TimetableForm(instance=timetable)
+
+    return render(request, "teacher/edit_timetable.html", {"form": form})
 
 
-# @login_required
-# def edit_timetable(request, timetable_id):
-#     timetable = get_object_or_404(Timetable, id=timetable_id, teacher=request.user)
-#     if request.method == "POST":
-#         timetable.day = request.POST.get("day")
-#         timetable.subject_id = request.POST.get("subject")
-#         timetable.time = request.POST.get("time")
-#         timetable.class_name_id = request.POST.get("class_name")
-#         timetable.save()
-#         messages.success(request, "Timetable updated successfully.")
-#         return redirect("manage_timetable")
-
-#     assigned_classes = Class.objects.filter(teacher=request.user)
-#     assigned_subjects = Subject.objects.filter(teachers=request.user)
-
-#     return render(
-#         request,
-#         "teacher/edit_timetable.html",
-#         {
-#             "timetable": timetable,
-#             "assigned_classes": assigned_classes,
-#             "assigned_subjects": assigned_subjects,
-#         },
-#     )
+@login_required
+def delete_timetable(request, timetable_id):
+    timetable = get_object_or_404(Timetable, id=timetable_id, teacher=request.user)
+    timetable.delete()
+    messages.success(request, "Timetable deleted successfully.")
+    return redirect("manage_timetable")
 
 
 @login_required
