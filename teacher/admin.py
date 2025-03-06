@@ -6,7 +6,12 @@ from .models import Attendance, ExamSchedule, TeacherProfile, Timetable
 @admin.register(TeacherProfile)
 class TeacherProfileAdmin(admin.ModelAdmin):
     list_display = ("user", "full_name", "subject_specialization", "assigned_classes")
-    readonly_fields = ("assigned_classes",)
+    fields = (
+        "user",
+        "full_name",
+        "subject_specialization",
+        "assigned_classes",
+    )  # Make fields editable
 
 
 @admin.register(Timetable)

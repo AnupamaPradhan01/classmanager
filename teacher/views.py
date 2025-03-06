@@ -13,6 +13,9 @@ from teacher.models import (
     Timetable,
 )
 
+from .forms import ExamScheduleForm
+from .models import ExamSchedule
+
 
 @login_required
 def view_teacher_profile(request):
@@ -24,10 +27,12 @@ def view_teacher_profile(request):
 def edit_teacher_profile(request):
     profile = get_object_or_404(TeacherProfile, user=request.user)
 
-    # Only allow editing specific fields, NOT `assigned_classes`
     if request.method == "POST":
         form = TeacherProfileUpdateForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
+            # Prevent modification of assigned subjects and classes
+            form.instance.assigned_classes = profile.assigned_classes
+            form.instance.subject_specialization = profile.subject_specialization
             form.save()
             messages.success(request, "Profile updated successfully.")
             return redirect("profile")
@@ -254,3 +259,29 @@ def manage_exam_papers(request, exam_id):
     return render(
         request, "teacher/manage_exam_paper.html", {"form": form, "exam": exam}
     )
+
+
+def edit_exam(request, exam_id):
+    exam = get_object_or_404(ExamSchedule, id=exam_id)
+
+    if request.method == "POST":
+        form = ExamScheduleForm(request.POST, request.FILES, instance=exam)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Exam schedule updated successfully!")
+            return redirect("manage_exams")
+    else:
+        form = ExamScheduleForm(instance=exam)
+
+    return render(request, "teacher/edit_exam.html", {"form": form, "exam": exam})
+
+
+def delete_exam(request, exam_id):
+    exam = get_object_or_404(ExamSchedule, id=exam_id)
+
+    if request.method == "POST":
+        exam.delete()
+        messages.success(request, "Exam deleted successfully!")
+        return redirect("manage_exams")
+
+    return render(request, "teacher/confirm_delete_exam.html", {"exam": exam})
