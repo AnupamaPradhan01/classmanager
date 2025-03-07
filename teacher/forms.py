@@ -1,6 +1,7 @@
+from ckeditor.widgets import CKEditorWidget
 from django import forms
 
-from .models import ExamSchedule, TeacherProfile, Timetable
+from .models import Assignment, ExamSchedule, TeacherProfile, Timetable
 
 
 class TeacherProfileUpdateForm(forms.ModelForm):
@@ -36,3 +37,11 @@ class TimetableForm(forms.ModelForm):
     class Meta:
         model = Timetable
         fields = ["day", "subject", "time", "class_name"]
+
+
+class AssignmentForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget())  # Enable CKEditor
+
+    class Meta:
+        model = Assignment
+        fields = ["title", "description", "deadline", "class_name"]

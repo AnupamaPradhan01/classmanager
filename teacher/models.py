@@ -1,5 +1,6 @@
 # student/models.py
 from accounts.models import CustomUser
+from ckeditor.fields import RichTextField
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -87,7 +88,7 @@ class Assignment(models.Model):
         User, on_delete=models.CASCADE, related_name="assignments"
     )
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = RichTextField()  # Updated field
     deadline = models.DateTimeField()
     class_name = models.CharField(max_length=50)
 
