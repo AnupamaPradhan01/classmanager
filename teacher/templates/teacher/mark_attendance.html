@@ -1,98 +1,48 @@
-{% extends "base.html" %}
+{% extends 'teacher/base.html' %}
+
+{% block title %}Mark Attendance{% endblock %}
+
 {% block content %}
-
-<div class="container mt-4">
-    {% comment %} <div class="card shadow-lg p-4"> {% endcomment %}
-        <h2 class="text-center mb-4">Mark Attendance</h2>
-
-        {% if error %}
-            <div class="alert alert-danger text-center">{{ error }}</div>
-        {% endif %}
-
-        <form method="POST">
-            {% csrf_token %}
-            
-            <!-- Two-column Layout -->
-            <div class="row">
-                
-                <!-- Left Section: Class & Subject Selection -->
-                <div class="col-md-4">
-                    <div class="p-3 border rounded bg-light">
-                        <h5 class="text-center">Select Details</h5>
-
-                        <!-- Select Class -->
-                        <div class="mb-3">
-                            <label for="class_name" class="form-label fw-bold">Select Class:</label>
-                            <select id="class_name" name="class_name" class="form-select" required>
-                                <option value="">-- Select Class --</option>
-                                {% for class in assigned_classes %}
-                                    <option value="{{ class }}">{{ class }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <!-- Select Subject -->
-                        <div class="mb-3">
-                            <label for="subject" class="form-label fw-bold">Select Subject:</label>
-                            <select id="subject" name="subject" class="form-select" required>
-                                <option value="">-- Select Subject --</option>
-                                {% for subject in subjects %}
-                                    <option value="{{ subject }}">{{ subject }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Section: Students List -->
-                <div class="col-md-8">
-                    <div class="p-3 border rounded">
-                        <h5 class="text-center">Students List</h5>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover text-center" id="students_table">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>Student Name</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for student in students %}
-                                    <tr data-class="{{ student.student_profile.class_name }}">
-                                        <td class="align-middle">{{ student.username }}</td>
-                                        <td>
-                                            <select name="status_{{ student.id }}" class="form-select">
-                                                <option value="Present">Present</option>
-                                                <option value="Absent">Absent</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Submit Button -->
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-success px-5 py-2">Submit Attendance</button>
-            </div>
-
-        </form>
-    {% comment %} </div> {% endcomment %}
+<h2>Mark Attendance</h2>
+<button class="btn btn-primary">Add Student</button>
+<button class="btn btn-primary">Add Class</button>
+<div class="mt-3">
+    <label for="class">Class:</label>
+    <select id="class" class="form-select w-auto d-inline-block">
+        <option>Class 1</option>
+        <option>Class 2</option>
+    </select>
 </div>
-
-<!-- JavaScript for Dynamic Student Filtering -->
-<script>
-document.getElementById("class_name").addEventListener("change", function () {
-    let selectedClass = this.value;
-    document.querySelectorAll("#students_table tbody tr").forEach(row => {
-        row.style.display = row.getAttribute("data-class") === selectedClass ? "table-row" : "none";
-    });
-});
-</script>
-
+<div class="mt-3">
+    <div class="attendance-card present">
+        <span>Ashish (Roll No. 1)</span>
+        <div>
+            <button class="btn btn-light">A</button>
+            <button class="btn btn-dark">P</button>
+            <button class="btn btn-light">L</button>
+        </div>
+    </div>
+    <div class="attendance-card absent">
+        <span>abc (Roll No. 2)</span>
+        <div>
+            <button class="btn btn-dark">A</button>
+            <button class="btn btn-light">P</button>
+            <button class="btn btn-light">L</button>
+        </div>
+    </div>
+    <div class="attendance-card leave">
+        <span>def (Roll No. 3)</span>
+        <div>
+            <button class="btn btn-light">A</button>
+            <button class="btn btn-light">P</button>
+            <button class="btn btn-dark">L</button>
+        </div>
+    </div>
+</div>
+<h3>Summary</h3>
+<p>Total Students: 3</p>
+<p>Total Present: 1</p>
+<p>Total Absent: 1</p>
+<p>Total Leave: 1</p>
+<button class="btn btn-primary">Submit Attendance</button>
 {% endblock %}

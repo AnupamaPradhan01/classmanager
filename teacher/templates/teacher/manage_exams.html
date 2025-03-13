@@ -1,91 +1,36 @@
-{% extends "base.html" %}
+{% extends 'teacher/base.html' %}
+
+{% block title %}Exams{% endblock %}
+
 {% block content %}
-    <h2>Manage Exams</h2>
-
-    <!-- Display success or error messages -->
-    {% if messages %}
-        <ul class="alert-list">
-            {% for message in messages %}
-                <li class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                    {{ message }}
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="class_name">Class:</label>
-            <input type="text" id="class_name" name="class_name" class="form-control" placeholder="Enter assigned class name" required>
-        </div>
-
-        <div class="form-group">
-            <label for="subject">Subject:</label>
-            <input type="text" id="subject" name="subject" class="form-control" placeholder="Enter subject" required>
-        </div>
-
-        <div class="form-group">
-            <label for="exam_date">Exam Date:</label>
-            <input type="date" id="exam_date" name="exam_date" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-            <label for="start_time">Start Time:</label>
-            <input type="time" id="start_time" name="start_time" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-            <label for="end_time">End Time:</label>
-            <input type="time" id="end_time" name="end_time" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-            <label for="notes">Notes:</label>
-            <textarea id="notes" name="notes" class="form-control" placeholder="Optional exam notes"></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Schedule Exam</button>
-    </form>
-
-    <h3 class="mt-5">Scheduled Exams</h3>
-
-    <table class="table table-bordered mt-3">
+<h2>View Exams</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Class</th>
+                <th>Exam Name</th>
                 <th>Subject</th>
                 <th>Date</th>
                 <th>Time</th>
-                <th>Actions</th>
+                <th>Duration</th>
             </tr>
         </thead>
         <tbody>
-            {% for exam in exams %}
-                <tr>
-                    <td>{{ exam.class_name }}</td>
-                    <td>{{ exam.subject }}</td>
-                    <td>{{ exam.exam_date }}</td>
-                    <td>{{ exam.start_time }} to {{ exam.end_time }}</td>
-                    
-                        <td>
-                            <a href="{% url 'edit_exam' exam.id %}" class="btn btn-warning btn-sm">Edit</a>
-                            
-                            <form method="POST" action="{% url 'delete_exam' exam.id %}" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this exam?');">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
-                        
-                    
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="5">No exams scheduled yet.</td>
-                </tr>
-            {% endfor %}
+            <tr>
+                <td>Mid-Term</td>
+                <td>Mathematics</td>
+                <td>April 15, 2025</td>
+                <td>10:00 AM</td>
+                <td>2 Hours</td>
+            </tr>
+            <tr>
+                <td>Final Exam</td>
+                <td>Physics</td>
+                <td>June 10, 2025</td>
+                <td>12:00 PM</td>
+                <td>3 Hours</td>
+            </tr>
         </tbody>
     </table>
+</div>
 {% endblock %}

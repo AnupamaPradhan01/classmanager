@@ -1,104 +1,79 @@
-
-{% extends "base.html" %}
+{% extends 'teacher/base.html' %}
 
 {% block title %}Teacher Dashboard{% endblock %}
-{% block dashboard_title %}Welcome to Teacher Dashboard{% endblock %}
 
 {% block content %}
- <!-- Main Content -->
- <div class="container">
-    <div class="row mb-4">
-        <!-- Profile Section -->
-        <!-- Profile Section -->
-        <div class="col-md-4">
-            <div class="profile-section p-4 text-center">
-                <!-- Profile Image -->
-                {% if user.teacher_profile.profile_photo %}
-                    <img src="{{ user.teacher_profile.profile_photo.url }}" 
-                        alt="Profile" 
-                        class="profile-img img-fluid rounded-circle mb-3" 
-                        style="width: 150px; height: 150px;">
-                {% else %}
-                    <img src="" 
-                        alt="Profile" 
-                        class="profile-img img-fluid rounded-circle mb-3" 
-                        style="width: 150px; height: 150px;">
-                {% endif %}
-                
-                <!-- Name and Role -->
-                <h5 class="mb-1">{{ user.username }}</h5>
-                <p class="mb-3">{{ user.role }}</p>
-                
-                <!-- Buttons -->
-                <div class="d-flex justify-content-around">
-                    <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-sm">Edit Profile</a>
-                    <a href="{% url 'logout' %}" class="btn btn-danger btn-sm logout-btn">Logout</a>
-                </div>
-            </div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white p-3">
+            <h4>50</h4>
+            <p>Students</p>
         </div>
-
-        <!-- Dashboard Cards -->
-        <div class="col-md-8">
-            <div class="row">
-                <!-- Profile Management -->
-                <div class="col-sm-6 mb-4">
-                    <div class="card bg-light text-center p-3">
-                        <h6>Profile Management</h6>
-                        <p>Update your profile information</p>
-                        <a href="{% url 'profile' %}" class="btn btn-primary btn-sm">Manage Profile</a>
-                    </div>
-                </div>
-                
-                <!-- Attendance -->
-                <div class="col-sm-6 mb-4">
-                    <div class="card bg-light text-center p-3">
-                        <h6>Attendance</h6>
-                        <p>Mark attendance for students</p>
-                        <a href="{% url 'mark_attendance' %}" class="btn btn-primary btn-sm">Mark Attendance</a>
-                    </div>
-                </div>
-                <!-- Assignments -->
-                <div class="col-sm-6 mb-4">
-                    <div class="card bg-light text-center p-3">
-                        <h6>Assignments</h6>
-                        <p>Create and review assignments</p>
-                        <a href="{% url 'create_assignment' %}" class="btn btn-primary btn-sm">Manage Assignments</a>
-                    </div>
-                </div>
-                <!-- Exams -->
-                <div class="col-sm-6 mb-4">
-                    <div class="card bg-light text-center p-3">
-                        <h6>Exams</h6>
-                        <p>Schedule exams and record results</p>
-                        <a href="{% url 'manage_exams' %}" class="btn btn-primary btn-sm">Manage Exams</a>
-                    </div>
-                </div>
-                <!-- Notifications -->
-                <div class="col-sm-6 mb-4">
-                    <div class="card bg-light text-center p-3">
-                        <h6>Notifications</h6>
-                        <p>Send updates to students</p>
-                        <a href="" class="btn btn-primary btn-sm">Send Notifications</a>
-                    </div>
-                </div>
-                <!-- Timetable Management -->
-                <div class="col-sm-6 mb-4">
-                    <div class="card bg-light text-center p-3">
-                        <h6>Timetable Management</h6>
-                        <p>Update and share schedules</p>
-                        <a href="{% url 'manage_timetable' %}" class="btn btn-primary btn-sm">Manage Timetable</a>
-                    </div>
-                </div>
-                <!-- Communication -->
-                <div class="col-sm-6 mb-4">
-                    <div class="card bg-light text-center p-3">
-                        <h6>Communication</h6>
-                        <p>Message students and parents</p>
-                        <a href="" class="btn btn-primary btn-sm">Start Communication</a>
-                    </div>
-                </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white p-3">
+            <h4>20</h4>
+            <p>Assignments</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white p-3">
+            <h4>5</h4>
+            <p>Exams</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-danger text-white p-3">
+            <h4>10</h4>
+            <p>Timetable Entries</p>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Attendance Overview</h5>
+            <canvas id="attendanceChart"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Exam Performance</h5>
+            <div class="chart-container">
+                <canvas id="examChart"></canvas>
             </div>
         </div>
     </div>
 </div>
-{% endblock content %}
+
+<script>
+const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+new Chart(attendanceCtx, {
+    type: 'bar',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May'],
+        datasets: [{
+            label: 'Attendance',
+            data: [80, 85, 78, 90, 88],
+            backgroundColor: 'blue'
+        }]
+    }
+});
+const examCtx = document.getElementById('examChart').getContext('2d');
+new Chart(examCtx, {
+    type: 'pie',
+    data: {
+        labels: ['Pass', 'Fail'],
+        datasets: [{
+            data: [70, 30],
+            backgroundColor: ['green', 'red']
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+</script>
+{% endblock %}
