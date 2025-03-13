@@ -22,10 +22,10 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("accounts.urls")),
     path("student/", include("student.urls")),
     path("teacher/", include("teacher.urls")),
     path("parent/", include("parent.urls")),
-    path("monitor/", include("monitor.urls")),
+    path("", include("accounts.urls")),  # Home page at root URL
+    path("accounts/", include("accounts.urls")),  # Other accounts URLs
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

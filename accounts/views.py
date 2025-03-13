@@ -56,3 +56,7 @@ def role_based_redirect(request):
         return redirect("monitor_dashboard")
     else:
         return redirect("login")
+
+
+def home(request):
+    return render(request, "accounts/home.html")
