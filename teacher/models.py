@@ -30,27 +30,45 @@ class TeacherProfile(models.Model):
 
 
 class Timetable(models.Model):
+    DAYS_OF_WEEK = [
+        ("Monday", "Monday"),
+        ("Tuesday", "Tuesday"),
+        ("Wednesday", "Wednesday"),
+        ("Thursday", "Thursday"),
+        ("Friday", "Friday"),
+        ("Saturday", "Saturday"),
+        ("Sunday", "Sunday"),
+    ]
+
+    TIME_SLOTS = [
+        ("7:30 - 8:30", "7:30 - 8:30"),
+        ("8:30 - 9:30", "8:30 - 9:30"),
+        ("9:30 - 10:30", "9:30 - 10:30"),
+        ("11:00 - 11:50", "11:00 - 11:50"),
+        ("11:50 - 12:40", "11:50 - 12:40"),
+        ("12:40 - 1:30", "12:40 - 1:30"),
+        ("2:30 - 3:30", "2:30 - 3:30"),
+        ("3:30 - 4:30", "3:30 - 4:30"),
+        ("4:30 - 5:30", "4:30 - 5:30"),
+    ]
+
     teacher = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="created_timetables"
     )
-    day = models.CharField(
-        max_length=10,
-        choices=[
-            ("Monday", "Monday"),
-            ("Tuesday", "Tuesday"),
-            ("Wednesday", "Wednesday"),
-            ("Thursday", "Thursday"),
-            ("Friday", "Friday"),
-            ("Saturday", "Saturday"),
-            ("Sunday", "Sunday"),
-        ],
-    )
+    day = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
+    time_slot = models.CharField(max_length=20, choices=TIME_SLOTS)
     subject = models.CharField(max_length=100)
-    time = models.TimeField()
     class_name = models.CharField(max_length=50)
 
+    class Meta:
+        unique_together = (
+            "day",
+            "time_slot",
+            "class_name",
+        )  # Prevent duplicate time slots per class
+
     def __str__(self):
-        return f"{self.class_name} - {self.day} - {self.subject} - {self.time}"
+        return f"{self.class_name} | {self.day} | {self.time_slot} | {self.subject}"
 
 
 class Attendance(models.Model):

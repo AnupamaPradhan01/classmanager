@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "student",
     "teacher",
     "parent",
+    "admin_panel",
 ]
 
 MIDDLEWARE = [

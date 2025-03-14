@@ -1,7 +1,7 @@
 from ckeditor.widgets import CKEditorWidget
 from django import forms
 
-from .models import Assignment, ExamSchedule, TeacherProfile, Timetable
+from .models import Assignment, ExamSchedule, TeacherProfile
 
 
 class TeacherProfileUpdateForm(forms.ModelForm):
@@ -33,10 +33,10 @@ class ExamScheduleForm(forms.ModelForm):
         ]
 
 
-class TimetableForm(forms.ModelForm):
-    class Meta:
-        model = Timetable
-        fields = ["day", "subject", "time", "class_name"]
+# class TimetableForm(forms.ModelForm):
+#     class Meta:
+#         model = Timetable
+#         fields = ["day", "subject", "time", "class_name"]
 
 
 class AssignmentForm(forms.ModelForm):

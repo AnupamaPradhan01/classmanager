@@ -7,7 +7,7 @@ class CustomUser(AbstractUser):
     ROLE_CHOICES = (
         ("teacher", "Teacher"),
         ("student", "Student"),
-        ("monitor", "Class Monitor"),
+        ("admin", "Admin"),  # Changed from "monitor" to "admin"
         ("parent", "Parent"),
     )
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
