@@ -15,15 +15,14 @@
         <div class="profile">
           <h5>Admin Name</h5>
         </div>
-        <a href="#"><i class="fas fa-home"></i> Home</a>
-        <a href="#"><i class="fas fa-bell"></i> Notify Staff</a>
-        <a href="#"><i class="fas fa-bell"></i> Notify Student</a>
-        <a href="#"><i class="fas fa-user-plus"></i> Add Staff</a>
-        <a href="#"><i class="fas fa-user-cog"></i> Manage Staff</a>
+        <a href="{% url "admin_dashboard" %}"><i class="fas fa-home"></i> Home</a>
+        <a href="{% url "add_teacher" %}"><i class="fas fa-user-plus"></i> Add Teacher</a>
+        <a href="{% url "manage_teachers" %}"><i class="fas fa-user-cog"></i> Manage Teacher</a>
         <a href="{% url 'add_student' %}"><i class="fas fa-user-plus"></i> Add Student</a>
-        <a href="#"><i class="fas fa-users"></i> Manage Student</a>
+        <a href="{% url "manage_students" %}"><i class="fas fa-users"></i> Manage Student</a>
         <a href="#"><i class="fas fa-book"></i> Add Course</a>
         <a href="#"><i class="fas fa-cogs"></i> Manage Course</a>
+        <a href="{% url "logout" %}"><i class="fas  fa-sign-out-alt "></i> Logout</a>
     </div>
      <!-- Main Content (Changes per Page) -->
     <div class="content">

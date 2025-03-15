@@ -98,4 +98,5 @@ def view_exam_schedule(request):
 
 @login_required
 def view_profile(request):
-    return render(request, "student/exam_schedule.html")
+    student = Student.objects.get(email=request.user)
+    return render(request, "student/view_profile.html", {"student": student})

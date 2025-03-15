@@ -1,149 +1,99 @@
-{% extends "base.html" %}
+{% extends "student/base.html" %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <nav id="sidebar" class="col-md-3 col-lg-3 d-md-block bg-dark sidebar">
-            <div class="position-sticky pt-3">
-                <div class="text-center">
-                    <img src="{{profile_pic}}" alt="User" class="rounded-circle mt-3" width="80">
-                    <h6 class="text-white mt-2">{{first_name}} {{last_name}}</h6>
-                </div>
-                <ul class="nav flex-column mt-4">
-                    <li class="nav-item">
-                        <a class="nav-link active text-white" href="#">
-                            <i class="fas fa-home"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
-                            <i class="fas fa-user-edit"></i> View/Edit Profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{% url 'attendance_details' %}">
-                            <i class="fas fa-list"></i> View Attendance
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
-                            <i class="fas fa-bell"></i> View Notifications
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
-                            <i class="fas fa-calendar-alt"></i> Apply For Leave
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
-                            <i class="fas fa-comment"></i> Feedback
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="#">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+<!-- Main Content -->
+<main class="col-md-9 ms-sm-auto col-lg-9 px-md-4">
+    <h2 class="mt-3">Student Homepage</h2>
 
-        <!-- Main Content -->
-        <main class="col-md-9 ms-sm-auto col-lg-9 px-md-4">
-            <h2 class="mt-3">Student Homepage</h2>
-
-            <div class="row mt-4">
-                <div class="col-md-3">
-                    <div class="card text-white bg-info shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">3</h5>
-                            <p class="card-text">Total Attendance</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-success shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">66%</h5>
-                            <p class="card-text">Percentage Present</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-danger shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">34%</h5>
-                            <p class="card-text">Percentage Absent</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-warning shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">4</h5>
-                            <p class="card-text">Total Subjects</p>
-                        </div>
-                    </div>
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-info shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">3</h5>
+                    <p class="card-text">Total Attendance</p>
                 </div>
             </div>
-
-            <!-- Charts -->
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <div class="card shadow-sm">
-                        <div class="card-header">Student Homepage</div>
-                        <div class="card-body">
-                            <canvas id="attendanceChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card shadow-sm">
-                        <div class="card-header">Student Homepage</div>
-                        <div class="card-body">
-                            <canvas id="subjectChart"></canvas>
-                        </div>
-                    </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">66%</h5>
+                    <p class="card-text">Percentage Present</p>
                 </div>
             </div>
-        </main>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">34%</h5>
+                    <p class="card-text">Percentage Absent</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">4</h5>
+                    <p class="card-text">Total Subjects</p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <!-- Charts -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header">Student Homepage</div>
+                <div class="card-body">
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header">Student Homepage</div>
+                <div class="card-body">
+                    <canvas id="subjectChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
 
 <!-- Chart.js for graphs -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Attendance Pie Chart
-    var ctx1 = document.getElementById('attendanceChart').getContext('2d');
-    new Chart(ctx1, {
-        type: 'doughnut',
-        data: {
-            labels: ['Present', 'Absent'],
-            datasets: [{
-                data: [66, 34],
-                backgroundColor: ['#28a745', '#dc3545']
-            }]
-        }
-    });
+// Attendance Pie Chart
+var ctx1 = document.getElementById('attendanceChart').getContext('2d');
+new Chart(ctx1, {
+type: 'doughnut',
+data: {
+    labels: ['Present', 'Absent'],
+    datasets: [{
+        data: [66, 34],
+        backgroundColor: ['#28a745', '#dc3545']
+    }]
+}
+});
 
-    // Subject Attendance Bar Chart
-    var ctx2 = document.getElementById('subjectChart').getContext('2d');
-    new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: ['Data Structures', 'Civic Education', 'Biology', 'Physics'],
-            datasets: [{
-                label: 'Present In Class',
-                data: [1.5, 0.8, 1.2, 2.0],
-                backgroundColor: '#007bff'
-            }, {
-                label: 'Absent In Class',
-                data: [0.5, 1.2, 0.8, 0.0],
-                backgroundColor: '#ccc'
-            }]
-        }
-    });
+// Subject Attendance Bar Chart
+var ctx2 = document.getElementById('subjectChart').getContext('2d');
+new Chart(ctx2, {
+type: 'bar',
+data: {
+    labels: ['Data Structures', 'Civic Education', 'Biology', 'Physics'],
+    datasets: [{
+        label: 'Present In Class',
+        data: [1.5, 0.8, 1.2, 2.0],
+        backgroundColor: '#007bff'
+    }, {
+        label: 'Absent In Class',
+        data: [0.5, 1.2, 0.8, 0.0],
+        backgroundColor: '#ccc'
+    }]
+}
+});
 </script>
 {% endblock %}

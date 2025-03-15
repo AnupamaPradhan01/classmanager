@@ -1,19 +1,24 @@
+from admin_panel.decorators import admin_required
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from student.models import CLASS_CHOICES, GENDER_CHOICES, SECTION_CHOICES, Student
 
 User = get_user_model()
 
 
-@login_required
+@admin_required
 def admin_dashboard(request):
-    return render(request, "admin_panel/dashboard.html", {"user": request.user})
+    user = User.objects.get(username=request.user)
+    if user.role == "admin" or user.role == "Admin":
+        return render(request, "admin_panel/dashboard.html", {"user": request.user})
+    else:
+        return render(request, "admin_panel/404error.html")
 
 
 # View to register a new student
 
 
+@admin_required
 def add_student(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -83,3 +88,20 @@ def add_student(request):
             "gender_choices": GENDER_CHOICES,
         },
     )
+
+
+def edit_student(request):
+    pass
+
+
+def manage_students(request):
+    students = Student.objects.all()
+    return render(request, "admin_panel/manage_student.html", {"students": students})
+
+
+def add_teacher(request):
+    return render(request, "admin_panel/add_teacher.html")
+
+
+def manage_teachers(request):
+    return render(request, "admin_panel/manage_teacher.html")

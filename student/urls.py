@@ -18,5 +18,5 @@ urlpatterns = [
         name="submit_assignment",
     ),
     path("exam-schedule/", views.view_exam_schedule, name="view_exam_schedule"),
-    path("profile/", views.view_profile, name="view_profile"),
+    path("view-profile/", views.view_profile, name="view_profile"),
 ]

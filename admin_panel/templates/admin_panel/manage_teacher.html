@@ -1,0 +1,53 @@
+{% extends "admin_panel/base.html" %}
+{% block content%}
+<div class="container mt-5">
+  <h3 class="mb-4">Teacher List</h3>
+  <table class="table table-bordered table-striped">
+      <thead class="table-light">
+          <tr>
+              <th>#</th>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Subject</th>
+              <th>Joining Date</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td>2901</td>
+              <td><img src="https://via.placeholder.com/40" class="profile-pic" alt="Profile"></td>
+              <td>Andrew Martin</td>
+              <td>Male</td>
+              <td>English</td>
+              <td>05/04/2016</td>
+              <td>andrewmartin@gmail.com</td>
+              <td>+88 255600</td>
+              <td class="action-icons">
+                  <i class="fas fa-eye text-primary"></i>
+                  <i class="fas fa-edit text-success"></i>
+                  <i class="fas fa-trash text-danger"></i>
+              </td>
+          </tr>
+          <tr>
+              <td>2902</td>
+              <td><img src="https://via.placeholder.com/40" class="profile-pic" alt="Profile"></td>
+              <td>Sarah Johnson</td>
+              <td>Female</td>
+              <td>Mathematics</td>
+              <td>08/12/2015</td>
+              <td>sarahjohnson@gmail.com</td>
+              <td>+88 325600</td>
+              <td class="action-icons">
+                  <i class="fas fa-eye text-primary"></i>
+                  <i class="fas fa-edit text-success"></i>
+                  <i class="fas fa-trash text-danger"></i>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+{% endblock content%}
