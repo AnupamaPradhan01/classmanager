@@ -1,13 +1,11 @@
 from django.urls import path
 
 from . import views
+from .views import student_profile
 
 urlpatterns = [
     path("dashboard/", views.student_dashboard, name="student_dashboard"),
-    # URL for viewing profile
-    path("profile/", views.view_profile, name="view_profile"),
-    # URL for editing the profile
-    path("profile/edit/", views.edit_profile, name="edit_profile"),
+    path("profile/", student_profile, name="student_profile"),
     # url path to view timetable
     path("timetable/", views.view_timetable, name="view_timetable"),
     path(
@@ -20,4 +18,5 @@ urlpatterns = [
         name="submit_assignment",
     ),
     path("exam-schedule/", views.view_exam_schedule, name="view_exam_schedule"),
+    path("profile/", views.view_profile, name="view_profile"),
 ]

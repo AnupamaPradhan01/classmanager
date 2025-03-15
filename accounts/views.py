@@ -52,8 +52,8 @@ def role_based_redirect(request):
         return redirect("teacher_dashboard")
     elif user.role == "parent":
         return redirect("parent_dashboard")
-    elif user.role == "monitor":
-        return redirect("monitor_dashboard")
+    elif user.role == "admin":
+        return redirect("admin_dashboard")
     else:
         return redirect("login")
 

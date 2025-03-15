@@ -3,36 +3,34 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from teacher.models import Assignment, Attendance, ExamSchedule, Submission, Timetable
 
-from .forms import StudentProfileForm
-from .models import StudentProfile
+from .models import Student
 
 
 @login_required
-def edit_profile(request):
-    profile, created = StudentProfile.objects.get_or_create(user=request.user)
-    if request.method == "POST":
-        form = StudentProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect(
-                "view_profile"
-            )  # Redirect to the profile view page after saving
-    else:
-        form = StudentProfileForm(instance=profile)
-
-    return render(request, "student/edit_profile.html", {"form": form})
-
-
-# student/views.py
-@login_required
-def view_profile(request):
-    profile, created = StudentProfile.objects.get_or_create(user=request.user)
-    return render(request, "student/view_profile.html", {"profile": profile})
+def student_profile(request):
+    student = get_object_or_404(
+        Student, user__username=request.user.username
+    )  # Fetch student by username
+    return render(request, "student/profile.html", {"student": student})
 
 
 @login_required
 def student_dashboard(request):
-    return render(request, "student/dashboard.html", {"user": request.user})
+    student = Student.objects.get(email=request.user)
+    fname = student.first_name
+    lname = student.last_name
+    profile_pic = student.student_photo.url
+
+    return render(
+        request,
+        "student/dashboard.html",
+        {
+            "user": request.user,
+            "first_name": fname,
+            "last_name": lname,
+            "profile_pic": profile_pic,
+        },
+    )
 
 
 @login_required
@@ -96,3 +94,8 @@ def view_exam_schedule(request):
         "exam_date"
     )
     return render(request, "student/exam_schedule.html", {"exams": exams})
+
+
+@login_required
+def view_profile(request):
+    return render(request, "student/exam_schedule.html")

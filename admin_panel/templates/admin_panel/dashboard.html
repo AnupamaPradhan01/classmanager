@@ -1,0 +1,73 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}Teacher Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-3">
+          <div class="card text-white bg-primary p-3">
+              <h4>Total Students: 6</h4>
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="card text-white bg-success p-3">
+              <h4>Total Staff: 4</h4>
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="card text-white bg-warning p-3">
+              <h4>Total Courses: 1</h4>
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="card text-white bg-danger p-3">
+              <h4>Total Subjects: 4</h4>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-md-6">
+          <canvas id="studentsChart"></canvas>
+      </div>
+      <div class="col-md-6">
+          <canvas id="attendanceChart"></canvas>
+      </div>
+  </div>
+</div>
+
+<script>
+  const ctx1 = document.getElementById('studentsChart').getContext('2d');
+  new Chart(ctx1, {
+      type: 'pie',
+      data: {
+          labels: ['Students', 'Staff'],
+          datasets: [{
+              data: [6, 4],
+              backgroundColor: ['#007bff', '#28a745']
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false
+      }
+  });
+
+  const ctx2 = document.getElementById('attendanceChart').getContext('2d');
+  new Chart(ctx2, {
+      type: 'bar',
+      data: {
+          labels: ['Data Structures', 'Civic Education', 'Biology', 'Physics'],
+          datasets: [{
+              label: 'Attendance Per Subject',
+              data: [20, 10, 15, 25],
+              backgroundColor: '#6c757d'
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false
+      }
+  });
+</script>
+{% endblock content %}
