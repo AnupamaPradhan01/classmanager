@@ -1,21 +1,21 @@
 {% extends "admin_panel/base.html" %}
 {% block content %}
 <div class="container">
-  <h4 class="mb-4">Teacher Information</h4>
-  <form method="post" enctype="multipart/form-data">
+  <h4 class="mb-4">Add Teacher Information</h4>
+  <form method="post" enctype="multipart/form-data" class="border p-4 rounded bg-white">
     {% csrf_token %}
       <div class="row g-3">
           <div class="col-md-3">
               <label class="form-label">First Name</label>
-              <input type="text" class="form-control" placeholder="Enter First Name">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter First Name">
           </div>
           <div class="col-md-3">
               <label class="form-label">Last Name</label>
-              <input type="text" class="form-control" placeholder="Enter Last Name">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Last Name">
           </div>
           <div class="col-md-3">
               <label class="form-label">Class</label>
-              <select class="form-select">
+              <select class="form-select  bg-light text-dark">
                   <option selected>Please Select Class</option>
                   <option>Class 1</option>
                   <option>Class 2</option>
@@ -23,7 +23,7 @@
           </div>
           <div class="col-md-3">
               <label class="form-label">Section</label>
-              <select class="form-select">
+              <select class="form-select bg-light text-dark">
                   <option selected>Please Select Section</option>
                   <option>A</option>
                   <option>B</option>
@@ -31,23 +31,23 @@
           </div>
           <div class="col-md-3">
               <label class="form-label">Gender</label>
-              <select class="form-select">
+              <select class="form-select bg-light text-dark">
                   <option selected>Please Select Gender</option>
                   <option>Male</option>
                   <option>Female</option>
               </select>
           </div>
           <div class="col-md-3">
-              <label class="form-label">Date Of Birth</label>
-              <input type="date" class="form-control">
+              <label class="form-label ">Date Of Birth</label>
+              <input type="date" class="form-control bg-light text-dark">
           </div>
           <div class="col-md-3">
               <label class="form-label">ID No</label>
-              <input type="text" class="form-control" placeholder="Enter ID No">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter ID No">
           </div>
           <div class="col-md-3">
               <label class="form-label">Subject</label>
-              <select class="form-select">
+              <select class="form-select bg-light text-dark">
                   <option selected>Please Select Subject</option>
                   <option>Math</option>
                   <option>Science</option>
@@ -55,19 +55,19 @@
           </div>
           <div class="col-md-3">
               <label class="form-label">Religion</label>
-              <input type="text" class="form-control" placeholder="Enter Religion">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Religion">
           </div>
           <div class="col-md-3">
               <label class="form-label">E-mail</label>
-              <input type="email" class="form-control" placeholder="Enter Email">
+              <input type="email" class="form-control bg-light text-dark" placeholder="Enter Email">
           </div>
           <div class="col-md-3">
               <label class="form-label">Phone No</label>
-              <input type="text" class="form-control" placeholder="Enter Phone No">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Phone No">
           </div>
           <div class="col-md-3">
               <label class="form-label">Address</label>
-              <input type="text" class="form-control" placeholder="Enter Address">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Address">
           </div>
           <div class="col-md-6">
               <label class="form-label">Upload Teacher Photo (150px X 150px)</label>

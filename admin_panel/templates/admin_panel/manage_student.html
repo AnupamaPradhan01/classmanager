@@ -1,64 +1,197 @@
 {% extends "admin_panel/base.html" %}
 
 {% block content %}
-<div class="table-container">
-  <h2 class="text-center mb-4">List of Students</h2>
+<div class="table-container" >
+    <h2 class="text-center mb-4">List of Students</h2>
   
-  <table class="table table-bordered table-striped">
-      <thead class="table-light">
-          <tr>
-              <th><input type="checkbox"></th>
-              <th>Roll</th>
-              <th>Photo</th>
-              <th>Name</th>
-              <th>Gender</th>
-              <th>Parents Name</th>
-              <th>Class</th>
-              <th>Section</th>
-              <th>Address</th>
-              <th>Date Of Birth</th>
-              <th>Mobile No</th>
-              <th>Email</th>
-              <th>Action</th>
-          </tr>
-      </thead>
-      <tbody>
-          {% for student in students %}
-          <tr>
-              <td><input type="checkbox"></td>
-              <td>{{ student.roll_number }}</td>
-              <td class="photo">
-                  {% if student.student_photo %}
-                      <img src="{{ student.student_photo.url }}" alt="Student" class="img-fluid" style="width: 45px; height: 45px;">
-                  {% else %}
-                      <img src="https://via.placeholder.com/40" alt="Student">
-                  {% endif %}
-              </td>
-              <td>{{ student.first_name }} {{ student.last_name }}</td>
-              <td>{{ student.gender }}</td>
-              <td>{{ student.father_name }}, {{ student.mother_name }}</td>
-              <td>{{ student.student_class }}</td>
-              <td>{{ student.section }}</td>
-              <td>{{ student.present_address }}</td>
-              <td>{{ student.date_of_birth }}</td>
-              <td>{{ student.phone_number }}</td>
-              <td>{{ student.email }}</td>
-              <td class="actions">
-                <i class="fas fa-eye text-primary"></i>
-                <i class="fas fa-edit text-success"></i>
-                <i class="fas fa-trash-alt text-danger delete"></i
-              </td>
-          </tr>
-          {% empty %}
-          <tr>
-              <td colspan="13" class="text-center">No students found.</td>
-          </tr>
-          {% endfor %}
-      </tbody>
-  </table>
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>Roll</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Parents</th>
+                <th>Class</th>
+                <th>Section</th>
+                <th>Address</th>
+                <th>DOB</th>
+                <th>Mobile No</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>{{ student.roll_number }}</td>
+                <td>{{ student.first_name }} {{ student.last_name }}</td>
+                <td>{{ student.gender }}</td>
+                <td>{{ student.father_name }}, {{ student.mother_name }}</td>
+                <td>{{ student.student_class }}</td>
+                <td>{{ student.section }}</td>
+                <td>{{ student.present_address }}</td>
+                <td>{{ student.date_of_birth }}</td>
+                <td>{{ student.phone_number }}</td>
+                <td>{{ student.email }}</td>
+                <td class="actions">
+                    <!-- View Student Button (Triggers Modal) -->
+                    <a href="#" class="d-block view-student" data-bs-toggle="modal" 
+                        data-bs-target="#studentModal"
+                        data-roll="{{ student.roll_number }}"
+                        data-name="{{ student.first_name }} {{ student.last_name }}"
+                        data-gender="{{ student.gender }}"
+                        data-parents="{{ student.father_name }}, {{ student.mother_name }}"
+                        data-class="{{ student.student_class }}"
+                        data-section="{{ student.section }}"
+                        data-address="{{ student.present_address }}"
+                        data-permanentaddress="{{ student.permanent_address }}"
+                        data-dob="{{ student.date_of_birth }}"
+                        data-phone="{{ student.phone_number }}"
+                        data-email="{{ student.email }}"
+                        data-admission="{{ student.admission_number }}"
+                        data-nationality="{{ student.nationality }}"
+                        data-religion="{{ student.religion }}"
+                        data-fatheroccupation="{{ student.father_occupation }}"
+                        data-motheroccupation="{{ student.mother_occupation }}"
+                        data-studentphoto = "{{MEDIA_URL}}{{student.student_photo}}"
+                        data-parentphoto = "{{MEDIA_URL}}{{student.parent_photo}}"
+                        >
+                        
+                        <i class="fas fa-eye text-primary"></i>
+                    </a>
+                    <!-- Edit and Delete Actions -->
+                    <a href="{% url 'edit_student' student.id %}" class="d-block"><i class="fas fa-edit text-success"></i></a>
+                    <a href="{% url "delete_student" student.id %}" class="d-block"><i class="fas fa-trash-alt text-danger delete"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="13" class="text-center">No students found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
+<!-- Student Info Modal -->
+<div class="modal fade" id="studentModal" tabindex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
+    <div class="modal-dialog model-xl modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="studentModalLabel">Student Details</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="container">
+                    
+                    <!-- Student & Parent Photos -->
+                    <div class="row mb-4 text-center">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Student's Photo</h6>
+                            <img id="modal-studentphoto" src="" alt="Student Photo" class="img-thumbnail rounded shadow" width="150">
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Parent's Photo</h6>
+                            <img id="modal-parentphoto" src="" alt="Parent Photo" class="img-thumbnail rounded shadow" width="150">
+                        </div>
+                    </div>
 
+                    <!-- Personal Information -->
+                    <div class="section-box">
+                        <h5 class="section-title">Personal Information</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4"><p><strong>Roll Number:</strong> <span id="modal-roll"></span></p></div>
+                            <div class="col-md-4"><p><strong>Name:</strong> <span id="modal-name"></span></p></div>
+                            <div class="col-md-4"><p><strong>Gender:</strong> <span id="modal-gender"></span></p></div>
+                            <div class="col-md-4"><p><strong>Parents:</strong> <span id="modal-parents"></span></p></div>
+                            <div class="col-md-4"><p><strong>DOB:</strong> <span id="modal-dob"></span></p></div>
+                            <div class="col-md-4"><p><strong>Nationality:</strong> <span id="modal-nationality"></span></p></div>
+                            <div class="col-md-4"><p><strong>Religion:</strong> <span id="modal-religion"></span></p></div>
+                        </div>
+                    </div>
 
+                    <!-- Academic Information -->
+                    <div class="section-box">
+                        <h5 class="section-title">Academic Information</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4"><p><strong>Class:</strong> <span id="modal-class"></span></p></div>
+                            <div class="col-md-4"><p><strong>Section:</strong> <span id="modal-section"></span></p></div>
+                            <div class="col-md-4"><p><strong>Admission No:</strong> <span id="modal-admission"></span></p></div>
+                        </div>
+                    </div>
 
-{% endblock content %}
+                    <!-- Contact Information -->
+                    <div class="section-box">
+                        <h5 class="section-title">Contact Details</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6"><p><strong>Mobile No:</strong> <span id="modal-phone"></span></p></div>
+                            <div class="col-md-6"><p><strong>Email:</strong> <span id="modal-email"></span></p></div>
+                        </div>
+                    </div>
+
+                    <!-- Address Information -->
+                    <div class="section-box">
+                        <h5 class="section-title">Address</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6"><p><strong>Current Address:</strong> <span id="modal-address"></span></p></div>
+                            <div class="col-md-6"><p><strong>Permanent Address:</strong> <span id="modal-permanentaddress"></span></p></div>
+                        </div>
+                    </div>
+
+                    <!-- Parents' Occupation -->
+                    <div class="section-box">
+                        <h5 class="section-title">Parents' Occupation</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6"><p><strong>Father's Occupation:</strong> <span id="modal-fatheroccupation"></span></p></div>
+                            <div class="col-md-6"><p><strong>Mother's Occupation:</strong> <span id="modal-motheroccupation"></span></p></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to Handle Modal Data -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewButtons = document.querySelectorAll(".view-student");
+        
+        viewButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                document.getElementById("modal-roll").textContent = this.getAttribute("data-roll");
+                document.getElementById("modal-name").textContent = this.getAttribute("data-name");
+                document.getElementById("modal-gender").textContent = this.getAttribute("data-gender");
+                document.getElementById("modal-parents").textContent = this.getAttribute("data-parents");
+                document.getElementById("modal-class").textContent = this.getAttribute("data-class");
+                document.getElementById("modal-section").textContent = this.getAttribute("data-section");
+                document.getElementById("modal-address").textContent = this.getAttribute("data-address");
+                document.getElementById("modal-permanentaddress").textContent = this.getAttribute("data-permanentaddress");
+                document.getElementById("modal-dob").textContent = this.getAttribute("data-dob");
+                document.getElementById("modal-phone").textContent = this.getAttribute("data-phone");
+                document.getElementById("modal-email").textContent = this.getAttribute("data-email");
+                document.getElementById("modal-admission").textContent = this.getAttribute("data-admission");
+                document.getElementById("modal-nationality").textContent = this.getAttribute("data-nationality");
+                document.getElementById("modal-religion").textContent = this.getAttribute("data-religion");
+                document.getElementById("modal-fatheroccupation").textContent = this.getAttribute("data-fatheroccupation");
+                document.getElementById("modal-motheroccupation").textContent = this.getAttribute("data-motheroccupation");
+                document.getElementById("modal-studentphoto").src = this.getAttribute("data-studentphoto");
+                document.getElementById("modal-parentphoto").src = this.getAttribute("data-parentphoto");
+            });
+        });
+    });
+</script>
+
+{% endblock %}

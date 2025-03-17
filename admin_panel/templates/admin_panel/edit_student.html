@@ -1,0 +1,150 @@
+{% extends "admin_panel/base.html" %}
+{% block title %}Edit Student{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Edit Student</h2>
+    <form method="POST" enctype="multipart/form-data" class="border p-4 rounded bg-white">
+        {% csrf_token %}
+
+        <!-- Personal Information -->
+        <h4 class="mb-3">Personal Information</h4>
+        <div class="row">
+          <div class="col-md-4">
+            <label>Student Photo</label>
+            <div class="mb-2">
+                {% if student.student_photo %}
+                    <img id="studentPhotoPreview" src="{{ student.student_photo.url }}" class="img-thumbnail d-block" width="150">
+                {% else %}
+                    <img id="studentPhotoPreview" src="https://via.placeholder.com/150" class="img-thumbnail d-block" width="150">
+                {% endif %}
+            </div>
+            <input type="file" name="student_photo" class="form-control" id="studentPhotoInput" accept="image/*">
+        </div>
+        
+            <div class="col-md-4">
+                <label>First Name</label>
+                <input type="text" name="first_name" class="form-control bg-light text-dark" value="{{ student.first_name }}">
+            </div>
+            <div class="col-md-4">
+                <label>Last Name</label>
+                <input type="text" name="last_name" class="form-control bg-light text-dark" value="{{ student.last_name }}">
+            </div>
+            <div class="col-md-4">
+                <label>Gender</label>
+                <select name="gender" class="form-control bg-light text-dark">
+                    <option value="Male" {% if student.gender == "Male" %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if student.gender == "Female" %}selected{% endif %}>Female</option>
+                    <option value="Other" {% if student.gender == "Other" %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Date of Birth</label>
+                <input type="date" name="date_of_birth" class="form-control bg-light text-dark" value="{{ student.date_of_birth|date:'Y-m-d' }}">
+            </div>
+            <div class="col-md-4">
+                <label>Phone Number</label>
+                <input type="text" name="phone_number" class="form-control bg-light text-dark" value="{{ student.phone_number }}">
+            </div>
+            <div class="col-md-4">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control bg-light text-dark" value="{{ student.email }}">
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Academic Information -->
+        <h4 class="mb-3">Academic Information</h4>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Class</label>
+                <input type="text" name="student_class" class="form-control bg-light text-dark" value="{{ student.student_class }}">
+            </div>
+            <div class="col-md-4">
+                <label>Section</label>
+                <input type="text" name="section" class="form-control bg-light text-dark" value="{{ student.section }}">
+            </div>
+            <div class="col-md-4">
+                <label>Roll Number</label>
+                <input type="text" name="roll_number" class="form-control bg-light text-dark" value="{{ student.roll_number }}">
+            </div>
+            <div class="col-md-4">
+                <label>Admission Number</label>
+                <input type="text" name="admission_number" class="form-control bg-light text-dark" value="{{ student.admission_number }}">
+            </div>
+            <div class="col-md-6">
+                <label>Present Address</label>
+                <input type="text" name="present_address" class="form-control bg-light text-dark" value="{{ student.present_address }}">
+            </div>
+            <div class="col-md-6">
+                <label>Permanent Address</label>
+                <input type="text" name="permanent_address" class="form-control bg-light text-dark" value="{{ student.permanent_address }}">
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Parent Information -->
+        <h4 class="mb-3">Parent Information</h4>
+        <div class="row">
+          <div class="col-md-4">
+            <label>Parent Photo</label>
+            <div class="mb-2">
+                {% if student.parent_photo %}
+                    <img id="parentPhotoPreview" src="{{ student.parent_photo.url }}" class="img-thumbnail d-block" width="150">
+                {% else %}
+                    <img id="parentPhotoPreview" src="https://via.placeholder.com/150" class="img-thumbnail d-block" width="150">
+                {% endif %}
+            </div>
+            <input type="file" name="parent_photo" class="form-control" id="parentPhotoInput" accept="image/*">
+        </div>
+        
+            <div class="col-md-4">
+                <label>Father's Name</label>
+                <input type="text" name="father_name" class="form-control bg-light text-dark" value="{{ student.father_name }}">
+            </div>
+            <div class="col-md-4">
+                <label>Father's Occupation</label>
+                <input type="text" name="father_occupation" class="form-control bg-light text-dark" value="{{ student.father_occupation }}">
+            </div>
+            <div class="col-md-4">
+                <label>Mother's Name</label>
+                <input type="text" name="mother_name" class="form-control bg-light text-dark" value="{{ student.mother_name }}">
+            </div>
+            <div class="col-md-4">
+                <label>Mother's Occupation</label>
+                <input type="text" name="mother_occupation" class="form-control bg-light text-dark" value="{{ student.mother_occupation }}">
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Form Actions -->
+        <div class="d-flex justify-content-end">
+            <a href="{% url 'manage_students' %}" class="btn btn-secondary me-2">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+  document.getElementById('studentPhotoInput').addEventListener('change', function(event) {
+      let reader = new FileReader();
+      reader.onload = function() {
+          document.getElementById('studentPhotoPreview').src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+  });
+  
+  document.getElementById('parentPhotoInput').addEventListener('change', function(event) {
+      let reader = new FileReader();
+      reader.onload = function() {
+          document.getElementById('parentPhotoPreview').src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+  });
+  </script>
+  
+{% endblock %}

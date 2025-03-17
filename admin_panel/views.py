@@ -1,5 +1,6 @@
 from admin_panel.decorators import admin_required
 from django.contrib.auth import get_user_model
+from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from student.models import CLASS_CHOICES, GENDER_CHOICES, SECTION_CHOICES, Student
 
@@ -9,10 +10,22 @@ User = get_user_model()
 @admin_required
 def admin_dashboard(request):
     user = User.objects.get(username=request.user)
-    if user.role == "admin" or user.role == "Admin":
-        return render(request, "admin_panel/dashboard.html", {"user": request.user})
-    else:
-        return render(request, "admin_panel/404error.html")
+    if user.role.lower() == "admin":  # Handle case sensitivity
+        total_students = Student.objects.count()
+        # total_staff = Staff.objects.count()
+        # total_courses = Course.objects.count()
+        # total_subjects = Subject.objects.count()
+
+        context = {
+            "user": request.user,
+            "total_students": total_students,
+            # "total_staff": total_staff,
+            # "total_courses": total_courses,
+            # "total_subjects": total_subjects,
+        }
+        return render(request, "admin_panel/dashboard.html", context)
+
+    return render(request, "admin_panel/404error.html")
 
 
 # View to register a new student
@@ -90,13 +103,58 @@ def add_student(request):
     )
 
 
-def edit_student(request):
-    pass
-
-
 def manage_students(request):
+    from django.conf import settings
+
     students = Student.objects.all()
-    return render(request, "admin_panel/manage_student.html", {"students": students})
+    media_url = settings.MEDIA_URL
+    return render(
+        request,
+        "admin_panel/manage_student.html",
+        {"students": students, "MEDIA_URL": media_url},
+    )
+
+
+def edit_student(request, id):
+    student = Student.objects.get(id=id)  # Fetch student record
+
+    if request.method == "POST":
+        # Update fields manually
+        student.first_name = request.POST.get("first_name")
+        student.last_name = request.POST.get("last_name")
+        student.gender = request.POST.get("gender")
+        student.date_of_birth = request.POST.get("date_of_birth")
+        student.phone_number = request.POST.get("phone_number")
+        student.email = request.POST.get("email")
+        student.student_class = request.POST.get("student_class")
+        student.section = request.POST.get("section")
+        student.roll_number = request.POST.get("roll_number")
+        student.admission_number = request.POST.get("admission_number")
+        student.present_address = request.POST.get("present_address")
+        student.permanent_address = request.POST.get("permanent_address")
+        student.father_name = request.POST.get("father_name")
+        student.father_occupation = request.POST.get("father_occupation")
+        student.mother_name = request.POST.get("mother_name")
+        student.mother_occupation = request.POST.get("mother_occupation")
+
+        # Handle photo uploads
+        if "student_photo" in request.FILES:
+            student.student_photo = request.FILES["student_photo"]
+        if "parent_photo" in request.FILES:
+            student.parent_photo = request.FILES["parent_photo"]
+
+        student.save()  # Save the changes
+        return redirect("manage_students")  # Redirect to student list
+    return render(request, "admin_panel/edit_student.html", {"student": student})
+
+
+def delete_student(request, id):
+    student = Student.objects.get(id=id)
+    if student is not None:
+        student.delete()
+        return redirect("manage_students")
+    else:
+        return HttpResponseBadRequest("Data does not exists.")
 
 
 def add_teacher(request):
@@ -105,3 +163,7 @@ def add_teacher(request):
 
 def manage_teachers(request):
     return render(request, "admin_panel/manage_teacher.html")
+
+
+def add_timetable(request):
+    return render(request, "admin_panel/add_timetable.html")
