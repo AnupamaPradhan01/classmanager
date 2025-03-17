@@ -109,6 +109,7 @@ def add_student(request):
     )
 
 
+@admin_required
 def manage_students(request):
     from django.conf import settings
 
@@ -121,6 +122,7 @@ def manage_students(request):
     )
 
 
+@admin_required
 def edit_student(request, id):
     student = Student.objects.get(id=id)  # Fetch student record
 
@@ -154,6 +156,7 @@ def edit_student(request, id):
     return render(request, "admin_panel/edit_student.html", {"student": student})
 
 
+@admin_required
 def delete_student(request, id):
     student = Student.objects.get(id=id)
     if student is not None:
@@ -164,6 +167,7 @@ def delete_student(request, id):
 
 
 # view to add a new teacher
+@admin_required
 def add_teacher(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -230,6 +234,7 @@ def add_teacher(request):
     )
 
 
+@admin_required
 def manage_teachers(request):
     from django.conf import settings
 
@@ -242,6 +247,7 @@ def manage_teachers(request):
     )
 
 
+@admin_required
 def edit_teacher(request, id):
     teacher = Teacher.objects.get(id=id)  # Fetch student record
 
@@ -269,6 +275,7 @@ def edit_teacher(request, id):
     return render(request, "admin_panel/edit_teacher.html", {"teacher": teacher})
 
 
+@admin_required
 def delete_teacher(request, id):
     teacher = Teacher.objects.get(id=id)
     if teacher is not None:

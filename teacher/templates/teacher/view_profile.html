@@ -1,0 +1,35 @@
+
+{% extends "teacher/base.html" %}
+{% block content %}
+<div class="flex-grow-1 p-4">
+    <div class="container">
+        <div class="card shadow-lg border-0 rounded-3">
+            <div class="card-body">
+                <h2 class="card-title text-center text-primary mb-4">{{teacher.first_name }} {{teacher.last_name}}</h2>
+                <div class="d-flex align-items-center mb-4">
+                    <img src="{{teacher.teacher_photo.url}}" class="rounded-circle border border-primary p-1" width="100" height="100">
+                    <div class="ms-4">
+                        <p class="mb-1"><strong>Name:</strong> {{teacher.first_name}} {{teacher.last_name}}</p>
+                        <p class="mb-1"><strong>Gender:</strong> {{teacher.gender}}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6"><p><strong>Date of Birth:</strong> {{teacher.date_of_birth}}</p></div>
+                    <div class="col-md-6"><p><strong>Religion:</strong> {{teacher.religion}}</p></div>
+                    
+                    <div class="col-md-6"><p><strong>Email:</strong> {{teacher.email}}</p></div>
+                    <div class="col-md-6"><p><strong>ID No:</strong> {{teacher.id_no}}</p></div>
+                    <div class="col-md-6"><p><strong>Class:</strong> {{teacher.class_assigned}}</p></div>
+                    <div class="col-md-6"><p><strong>Section:</strong> {{teacher.section}}</p></div>
+                    <div class="col-md-6"><p><strong>Subject:</strong> {{teacher.subject}}</p></div>
+                    <div class="col-md-6"><p><strong>Address:</strong> {{teacher.address}}</p></div>
+                    <div class="col-md-6"><p><strong>Phone:</strong> {{teacher.phone_no}}</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
