@@ -7,71 +7,80 @@
       <div class="row g-3">
           <div class="col-md-3">
               <label class="form-label">First Name</label>
-              <input type="text" class="form-control bg-light text-dark" placeholder="Enter First Name">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter First Name" name="first_name">
           </div>
           <div class="col-md-3">
               <label class="form-label">Last Name</label>
-              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Last Name">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Last Name" name="last_name">
           </div>
           <div class="col-md-3">
               <label class="form-label">Class</label>
-              <select class="form-select  bg-light text-dark">
+              <select class="form-select  bg-light text-dark" name="class_assigned">
                   <option selected>Please Select Class</option>
-                  <option>Class 1</option>
-                  <option>Class 2</option>
+                  {% for value, label in class_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
               </select>
           </div>
           <div class="col-md-3">
               <label class="form-label">Section</label>
-              <select class="form-select bg-light text-dark">
-                  <option selected>Please Select Section</option>
-                  <option>A</option>
-                  <option>B</option>
+              <select class="form-select bg-light text-dark" name="section">
+                <option selected>Please Select Section</option>
+                {% for value, label in section_choices %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
               </select>
           </div>
           <div class="col-md-3">
               <label class="form-label">Gender</label>
-              <select class="form-select bg-light text-dark">
+              <select class="form-select bg-light text-dark" name="gender">
                   <option selected>Please Select Gender</option>
-                  <option>Male</option>
-                  <option>Female</option>
+                  {% for value, label in gender_choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
               </select>
           </div>
           <div class="col-md-3">
               <label class="form-label ">Date Of Birth</label>
-              <input type="date" class="form-control bg-light text-dark">
+              <input type="date" class="form-control bg-light text-dark" name="dob">
           </div>
           <div class="col-md-3">
               <label class="form-label">ID No</label>
-              <input type="text" class="form-control bg-light text-dark" placeholder="Enter ID No">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter ID No" name="id_no">
           </div>
           <div class="col-md-3">
               <label class="form-label">Subject</label>
-              <select class="form-select bg-light text-dark">
+              <select class="form-select bg-light text-dark" name="subject">
                   <option selected>Please Select Subject</option>
-                  <option>Math</option>
-                  <option>Science</option>
+                  {% for value, label in subject_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                  {% endfor %}
               </select>
           </div>
           <div class="col-md-3">
               <label class="form-label">Religion</label>
-              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Religion">
+              <select class="form-select bg-light text-dark" name="religion">
+                <option selected>Please Select Subject</option>
+                {% for value, label in religion_choices %}
+                      <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
           </div>
           <div class="col-md-3">
               <label class="form-label">E-mail</label>
-              <input type="email" class="form-control bg-light text-dark" placeholder="Enter Email">
+              <input type="email" class="form-control bg-light text-dark" placeholder="Enter Email" name="email">
           </div>
           <div class="col-md-3">
               <label class="form-label">Phone No</label>
-              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Phone No">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Phone No" name="phone_no">
           </div>
           <div class="col-md-3">
               <label class="form-label">Address</label>
-              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Address">
+              <input type="text" class="form-control bg-light text-dark" placeholder="Enter Address" name="address">
           </div>
           <div class="col-md-6">
               <label class="form-label">Upload Teacher Photo (150px X 150px)</label>
-              <input type="file" class="form-control">
+              <input type="file" class="form-control" name="teacher_photo">
           </div>
       </div>
       <div class="mt-4">

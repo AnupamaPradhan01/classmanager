@@ -3,6 +3,14 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from student.models import CLASS_CHOICES, GENDER_CHOICES, SECTION_CHOICES, Student
+from teacher.models import (
+    CLASS_CHOICES,
+    GENDER_CHOICES,
+    RELIGION_CHOICES,
+    SECTION_CHOICES,
+    SUBJECT_CHOICES,
+    Teacher,
+)
 
 User = get_user_model()
 
@@ -12,14 +20,14 @@ def admin_dashboard(request):
     user = User.objects.get(username=request.user)
     if user.role.lower() == "admin":  # Handle case sensitivity
         total_students = Student.objects.count()
-        # total_staff = Staff.objects.count()
+        total_teachers = Teacher.objects.count()
         # total_courses = Course.objects.count()
         # total_subjects = Subject.objects.count()
 
         context = {
             "user": request.user,
             "total_students": total_students,
-            # "total_staff": total_staff,
+            "total_teachers": total_teachers,
             # "total_courses": total_courses,
             # "total_subjects": total_subjects,
         }
@@ -29,8 +37,6 @@ def admin_dashboard(request):
 
 
 # View to register a new student
-
-
 @admin_required
 def add_student(request):
     if request.method == "POST":
@@ -157,12 +163,119 @@ def delete_student(request, id):
         return HttpResponseBadRequest("Data does not exists.")
 
 
+# view to add a new teacher
 def add_teacher(request):
-    return render(request, "admin_panel/add_teacher.html")
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        gender = request.POST.get("gender")
+        dob = request.POST.get("dob")
+        religion = request.POST.get("religion")
+        email = request.POST.get("email")
+        phone_no = request.POST.get("phone_no")
+        address = request.POST.get("address")
+        id_no = request.POST.get("id_no")
+        class_assigned = request.POST.get("class_assigned")
+        section = request.POST.get("section")
+        subject = request.POST.get("subject")
+        teacher_photo = request.FILES.get("teacher_photo")
+
+        print("Checking for existing user with email:", email)  # Debugging
+
+        # Check if the email already exists
+        if User.objects.filter(email=email).exists():
+            print("User with this email already exists")  # Debugging
+            # messages.error(request, "A user with this email already exists.")
+            # return redirect("add_teacher")
+        user = User.objects.create(
+            username=email,  # Assuming email is unique
+            email=email,
+            role="teacher",  # assign teacher role
+        )
+        password = f"{first_name.lower()}{last_name.lower()}"
+        user.set_password(password)
+        user.save()
+
+        # Save to database
+        Teacher.objects.create(
+            user=user,
+            first_name=first_name,
+            last_name=last_name,
+            gender=gender,
+            date_of_birth=dob,
+            religion=religion,
+            email=email,
+            phone_no=phone_no,
+            address=address,
+            id_no=id_no,
+            class_assigned=class_assigned,
+            section=section,
+            subject=subject,
+            teacher_photo=teacher_photo,
+        )
+
+        # messages.success(request, "Teacher added successfully!")
+        return redirect("admin_dashboard")  # Redirect to the teacher list page
+
+    return render(
+        request,
+        "admin_panel/add_teacher.html",
+        {
+            "class_choices": CLASS_CHOICES,
+            "section_choices": SECTION_CHOICES,
+            "gender_choices": GENDER_CHOICES,
+            "subject_choices": SUBJECT_CHOICES,
+            "religion_choices": RELIGION_CHOICES,
+        },
+    )
 
 
 def manage_teachers(request):
-    return render(request, "admin_panel/manage_teacher.html")
+    from django.conf import settings
+
+    teachers = Teacher.objects.all()
+    media_url = settings.MEDIA_URL
+    return render(
+        request,
+        "admin_panel/manage_teacher.html",
+        {"teachers": teachers, "MEDIA_URL": media_url},
+    )
+
+
+def edit_teacher(request, id):
+    teacher = Teacher.objects.get(id=id)  # Fetch student record
+
+    if request.method == "POST":
+        # Update fields manually
+        teacher.first_name = request.POST.get("first_name")
+        teacher.last_name = request.POST.get("last_name")
+        teacher.gender = request.POST.get("gender")
+        teacher.date_of_birth = request.POST.get("date_of_birth")
+        teacher.religion = request.POST.get("religion")
+        teacher.email = request.POST.get("email")
+        teacher.phone_no = request.POST.get("phone_no")
+        teacher.address = request.POST.get("address")
+        teacher.id_no = request.POST.get("id_no")
+        teacher.class_assigned = request.POST.get("class_assigned")
+        teacher.section = request.POST.get("section")
+        teacher.subject = request.POST.get("subject")
+
+        # Handle photo uploads
+        if "teacher_photo" in request.FILES:
+            teacher.teacher_photo = request.FILES["teacher_photo"]
+
+        teacher.save()  # Save the changes
+        return redirect("manage_teachers")  # Redirect to student list
+    return render(request, "admin_panel/edit_teacher.html", {"teacher": teacher})
+
+
+def delete_teacher(request, id):
+    teacher = Teacher.objects.get(id=id)
+    if teacher is not None:
+        teacher.delete()
+        return redirect("manage_teachers")
+    else:
+        return HttpResponseBadRequest("Data does not exists.")
 
 
 def add_timetable(request):

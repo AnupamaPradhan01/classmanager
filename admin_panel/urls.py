@@ -6,7 +6,9 @@ from .views import (
     add_timetable,
     admin_dashboard,
     delete_student,
+    delete_teacher,
     edit_student,
+    edit_teacher,
     manage_students,
     manage_teachers,
 )
@@ -19,5 +21,7 @@ urlpatterns = [
     path("delete-student/<int:id>/", delete_student, name="delete_student"),
     path("add-teacher/", add_teacher, name="add_teacher"),
     path("manage-teachers/", manage_teachers, name="manage_teachers"),
+    path("edit-teacher/<int:id>/", edit_teacher, name="edit_teacher"),
+    path("delete-teacher/<int:id>/", delete_teacher, name="delete_teacher"),
     path("add-timetable/", add_timetable, name="add_timetable"),
 ]

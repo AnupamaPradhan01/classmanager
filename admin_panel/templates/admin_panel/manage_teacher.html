@@ -9,42 +9,161 @@
               <th>Name</th>
               <th>Gender</th>
               <th>Subject</th>
-              <th>Joining Date</th>
+              <th>Class</th>
+              <th>Section</th>
               <th>Email</th>
-              <th>Phone</th>
               <th>Action</th>
           </tr>
       </thead>
       <tbody>
-          <tr>
-              <td>2901</td>
-              <td>Andrew Martin</td>
-              <td>Male</td>
-              <td>English</td>
-              <td>05/04/2016</td>
-              <td>andrewmartin@gmail.com</td>
-              <td>+88 255600</td>
-              <td class="action-icons">
-                  <i class="fas fa-eye text-primary"></i>
-                  <i class="fas fa-edit text-success"></i>
-                  <i class="fas fa-trash text-danger"></i>
-              </td>
-          </tr>
-          <tr>
-              <td>2902</td>
-              <td>Sarah Johnson</td>
-              <td>Female</td>
-              <td>Mathematics</td>
-              <td>08/12/2015</td>
-              <td>sarahjohnson@gmail.com</td>
-              <td>+88 325600</td>
-              <td class="action-icons">
-                  <i class="fas fa-eye text-primary"></i>
-                  <i class="fas fa-edit text-success"></i>
-                  <i class="fas fa-trash text-danger"></i>
-              </td>
-          </tr>
+        {% for teacher in teachers %}
+        <tr>
+            <td>{{ teacher.id_no }}</td>
+            <td>{{ teacher.first_name }} {{ teacher.last_name }}</td>
+            <td>{{ teacher.gender }}</td>
+            <td>{{ teacher.subject }}</td>
+            <td>{{ teacher.class_assigned }}</td>
+            <td>{{ teacher.section }}</td>
+            <td>{{ teacher.email }}</td>
+            <td class="actions">
+                <!-- View Teacher  Button (Triggers Modal) -->
+                <a href="#" class="d-block view-teacher" data-bs-toggle="modal" 
+                    data-bs-target="#teacherModal"
+                    data-id="{{ teacher.id_no }}"
+                    data-name="{{ teacher.first_name }} {{ teacher.last_name }}"
+                    data-gender="{{ teacher.gender }}"
+                    data-class="{{ teacher.class_assigned }}"
+                    data-section="{{ teacher.section }}"
+                    data-subject="{{ teacher.subject }}"
+                    data-address="{{ teacher.address }}"
+                    data-dob="{{ teacher.date_of_birth }}"
+                    data-phone="{{ teacher.phone_no }}"
+                    data-email="{{ teacher.email }}"
+                    data-religion="{{ teacher.religion }}"
+                    data-teacherphoto = "{{MEDIA_URL}}{{teacher.teacher_photo}}"
+                    
+                    >
+                    
+                    <i class="fas fa-eye text-primary"></i>
+                </a>
+                <!-- Edit and Delete Actions -->
+                <a href="{% url 'edit_teacher' teacher.id %}" class="d-block"><i class="fas fa-edit text-success"></i></a>
+                <a href="{% url "delete_teacher" teacher.id %}" class="d-block"><i class="fas fa-trash-alt text-danger delete"></i></a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="13" class="text-center">No students found.</td>
+        </tr>
+        {% endfor %}
+          
       </tbody>
   </table>
 </div>
+
+<!-- Student Info Modal -->
+<div class="modal fade" id="teacherModal" tabindex="-1" aria-labelledby="teacherModalLabel" aria-hidden="true">
+    <div class="modal-dialog model-xl modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="teachertModalLabel">Teacher Details</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="container">
+                    
+                    <!-- Teacher Photo -->
+                    <div class="row mb-4 text-center">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Teacher's Photo</h6>
+                            <img id="modal-teacherphoto" src="" alt="Teacher Photo" class="img-thumbnail rounded shadow" width="150">
+                        </div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="section-box">
+                        <h5 class="section-title">Personal Information</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4"><p><strong>ID No:</strong> <span id="modal-id"></span></p></div>
+                            <div class="col-md-4"><p><strong>Name:</strong> <span id="modal-name"></span></p></div>
+                            <div class="col-md-4"><p><strong>Gender:</strong> <span id="modal-gender"></span></p></div>     
+                            <div class="col-md-4"><p><strong>DOB:</strong> <span id="modal-dob"></span></p></div>  
+                            <div class="col-md-4"><p><strong>Religion:</strong> <span id="modal-religion"></span></p></div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Information -->
+                    <div class="section-box">
+                        <h5 class="section-title">Academic Information</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4"><p><strong>Class:</strong> <span id="modal-class_assigned"></span></p></div>
+                            <div class="col-md-4"><p><strong>Section:</strong> <span id="modal-section"></span></p></div>
+                            <div class="col-md-4"><p><strong>Subject:</strong> <span id="modal-subject"></span></p></div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="section-box">
+                        <h5 class="section-title">Contact Details</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4"><p><strong>Phone No:</strong> <span id="modal-phone"></span></p></div>
+                            <div class="col-md-4"><p><strong>Email:</strong> <span id="modal-email"></span></p></div>
+                        </div>
+                    </div>
+
+                    <!-- Address Information -->
+                    <div class="section-box">
+                        <h5 class="section-title">Address</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4"><p><strong>Address:</strong> <span id="modal-address"></span></p></div>
+                        </div>
+                    </div>
+
+                    {% comment %} <!-- Parents' Occupation -->
+                    <div class="section-box">
+                        <h5 class="section-title">Parents' Occupation</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6"><p><strong>Father's Occupation:</strong> <span id="modal-fatheroccupation"></span></p></div>
+                            <div class="col-md-6"><p><strong>Mother's Occupation:</strong> <span id="modal-motheroccupation"></span></p></div>
+                        </div>
+                    </div> {% endcomment %}
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to Handle Modal Data -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewButtons = document.querySelectorAll(".view-teacher");
+        
+        viewButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                document.getElementById("modal-id").textContent = this.getAttribute("data-id");
+                document.getElementById("modal-name").textContent = this.getAttribute("data-name");
+                document.getElementById("modal-gender").textContent = this.getAttribute("data-gender");
+                document.getElementById("modal-dob").textContent = this.getAttribute("data-dob");
+                document.getElementById("modal-religion").textContent = this.getAttribute("data-religion");
+                document.getElementById("modal-class_assigned").textContent = this.getAttribute("data-class");
+                document.getElementById("modal-section").textContent = this.getAttribute("data-section");
+                document.getElementById("modal-subject").textContent = this.getAttribute("data-subject");
+                document.getElementById("modal-phone").textContent = this.getAttribute("data-phone");
+                document.getElementById("modal-email").textContent = this.getAttribute("data-email");
+                document.getElementById("modal-address").textContent = this.getAttribute("data-address");
+                document.getElementById("modal-teacherphoto").src = this.getAttribute("data-teacherphoto");
+            });
+        });
+    });
+</script>
 {% endblock content%}

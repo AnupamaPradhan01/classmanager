@@ -1,155 +1,81 @@
 # student/models.py
-from accounts.models import CustomUser
-from ckeditor.fields import RichTextField
 from django.contrib.auth import get_user_model
 from django.db import models
 
 User = get_user_model()
 
+# Dropdown choices
+CLASS_CHOICES = [
+    ("Nursery", "Nursery"),
+    ("KG", "KG"),
+    ("1st", "1st"),
+    ("2nd", "2nd"),
+    ("3rd", "3rd"),
+    ("4th", "4th"),
+    ("5th", "5th"),
+    ("6th", "6th"),
+    ("7th", "7th"),
+    ("8th", "8th"),
+    ("9th", "9th"),
+    ("10th", "10th"),
+    ("11th", "11th"),
+    ("12th", "12th"),
+]
 
-class TeacherProfile(models.Model):
+SECTION_CHOICES = [
+    ("A", "A"),
+    ("B", "B"),
+    ("C", "C"),
+    ("D", "D"),
+]
+
+GENDER_CHOICES = [
+    ("Male", "Male"),
+    ("Female", "Female"),
+    ("Other", "Other"),
+]
+
+RELIGION_CHOICES = [
+    ("Hindu", "Hindu"),
+    ("Muslim", "Muslim"),
+    ("Christian", "Christian"),
+    ("Sikh", "Sikh"),
+    ("Other", "Other"),
+]
+SUBJECT_CHOICES = [
+    ("Math", "Mathematics"),
+    ("Science", "Science"),
+    ("English", "English"),
+    ("History", "History"),
+    ("Geography", "Geography"),
+    ("Physics", "Physics"),
+    ("Chemistry", "Chemistry"),
+    ("Biology", "Biology"),
+    ("Computer", "Computer Science"),
+]
+
+
+class Teacher(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="teacher_profile"
-    )
-    full_name = models.CharField(max_length=150, default="Unknown")
-    subject_specialization = models.CharField(max_length=100, default="Not Specified")
-    assigned_classes = models.CharField(max_length=100, default="Not Assigned")
-    phone_number = models.CharField(max_length=15, default=000000)
-    profile_photo = models.ImageField(
+        User, on_delete=models.CASCADE
+    )  # Link to Django User model
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    gender = models.CharField(max_length=100, choices=GENDER_CHOICES)
+    date_of_birth = models.DateField()
+    religion = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(unique=True)
+    phone_no = models.CharField(max_length=15)
+    address = models.TextField()
+    id_no = models.CharField(max_length=50, unique=True)
+    class_assigned = models.CharField(
+        max_length=100, choices=CLASS_CHOICES
+    )  # Or use a ForeignKey
+    section = models.CharField(max_length=50, choices=SECTION_CHOICES)
+    subject = models.CharField(max_length=50, choices=SUBJECT_CHOICES)
+    teacher_photo = models.ImageField(
         upload_to="teacher_photos/", blank=True, null=True
     )
 
-    def get_assigned_classes(self):
-        return self.assigned_classes.split(",")
-
-    def get_subject_specialization(self):
-        return self.subject_specialization.split(",")
-
     def __str__(self):
-        return f"{self.user.username} - {self.full_name or 'No Name'}"
-
-
-class Timetable(models.Model):
-    DAYS_OF_WEEK = [
-        ("Monday", "Monday"),
-        ("Tuesday", "Tuesday"),
-        ("Wednesday", "Wednesday"),
-        ("Thursday", "Thursday"),
-        ("Friday", "Friday"),
-        ("Saturday", "Saturday"),
-        ("Sunday", "Sunday"),
-    ]
-
-    TIME_SLOTS = [
-        ("7:30 - 8:30", "7:30 - 8:30"),
-        ("8:30 - 9:30", "8:30 - 9:30"),
-        ("9:30 - 10:30", "9:30 - 10:30"),
-        ("11:00 - 11:50", "11:00 - 11:50"),
-        ("11:50 - 12:40", "11:50 - 12:40"),
-        ("12:40 - 1:30", "12:40 - 1:30"),
-        ("2:30 - 3:30", "2:30 - 3:30"),
-        ("3:30 - 4:30", "3:30 - 4:30"),
-        ("4:30 - 5:30", "4:30 - 5:30"),
-    ]
-
-    teacher = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="created_timetables"
-    )
-    day = models.CharField(max_length=10, choices=DAYS_OF_WEEK)
-    time_slot = models.CharField(max_length=20, choices=TIME_SLOTS)
-    subject = models.CharField(max_length=100)
-    class_name = models.CharField(max_length=50)
-
-    class Meta:
-        unique_together = (
-            "day",
-            "time_slot",
-            "class_name",
-        )  # Prevent duplicate time slots per class
-
-    def __str__(self):
-        return f"{self.class_name} | {self.day} | {self.time_slot} | {self.subject}"
-
-
-class Attendance(models.Model):
-    student = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="attendance_records"
-    )
-    class_name = models.CharField(max_length=50)  # Example: "10-A"
-    date = models.DateField(auto_now_add=True)
-    status = models.CharField(
-        max_length=10, choices=[("Present", "Present"), ("Absent", "Absent")]
-    )
-
-    subject = models.CharField(
-        max_length=100,
-        choices=[
-            ("Math", "Math"),
-            ("Science", "Science"),
-            ("English", "English"),
-        ],
-        default="English",  # Modify as needed
-    )
-
-    teacher = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="marked_attendance"
-    )
-
-    def __str__(self):
-        return (
-            f"{self.class_name} - {self.student.username} - {self.date} - {self.status}"
-        )
-
-
-class Assignment(models.Model):
-    teacher = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="assignments"
-    )
-    title = models.CharField(max_length=255)
-    description = RichTextField()  # Updated field
-    deadline = models.DateTimeField()
-    class_name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return f"{self.title} ({self.class_name})"
-
-
-class Submission(models.Model):
-    assignment = models.ForeignKey(
-        Assignment, on_delete=models.CASCADE, related_name="submissions"
-    )
-    student = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="submissions"
-    )
-    submission_file = models.FileField(upload_to="assignments/submissions/")
-    submitted_at = models.DateTimeField(auto_now_add=True)
-    grade = models.CharField(max_length=10, null=True, blank=True)
-    feedback = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.assignment.title} - {self.student.username}"
-
-
-class ExamSchedule(models.Model):
-    teacher = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="scheduled_exams"
-    )
-    class_name = models.CharField(max_length=50)
-    subject = models.CharField(max_length=100)
-    exam_date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    notes = models.TextField(null=True, blank=True)
-    question_paper = models.FileField(upload_to="exam_papers/", null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.class_name} - {self.subject} ({self.exam_date})"
-
-    # Optional validation to ensure the teacher schedules exams only for their assigned classes
-    def clean(self):
-        if self.class_name not in self.teacher.teacher_profile.assigned_classes.split(
-            ","
-        ):
-            raise ValidationError(
-                "Teacher can only schedule exams for their assigned classes."
-            )
+        return f"{self.first_name} {self.last_name}"
