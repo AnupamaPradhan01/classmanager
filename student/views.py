@@ -1,15 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 
 from .models import Student
-
-
-@login_required
-def student_profile(request):
-    student = get_object_or_404(
-        Student, user__username=request.user.username
-    )  # Fetch student by username
-    return render(request, "student/profile.html", {"student": student})
 
 
 @login_required
@@ -32,6 +24,6 @@ def student_dashboard(request):
 
 
 @login_required
-def view_profile(request):
+def student_view_profile(request):
     student = Student.objects.get(email=request.user)
     return render(request, "student/view_profile.html", {"student": student})

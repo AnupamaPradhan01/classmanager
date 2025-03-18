@@ -27,6 +27,7 @@ urlpatterns = [
     path("teacher/", include("teacher.urls")),
     path("", include("accounts.urls")),  # Home page at root URL
     path("accounts/", include("accounts.urls")),  # Other accounts URLs
+    path("attendance/", include("attendance.urls")),
 ]
 if settings.DEBUG:  # Serve media files only in development mode
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

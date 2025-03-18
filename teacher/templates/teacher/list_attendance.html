@@ -1,0 +1,71 @@
+{% extends "teacher/base.html"%}
+
+{% block content %}
+{% comment %} <div class="container mt-4"> {% endcomment %}
+  <h2 class="text-center">Attendance Sheet</h2>
+
+  <!-- Filter for Month and Year -->
+  <div class="d-flex justify-content-center mb-3">
+    <label for="month">Month:</label>
+      <select id="month" class="form-select w-auto me-2" onchange="updateAttendance()">
+          {% for m in months %}
+              <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>{{ m }}</option>
+          {% endfor %}
+      </select>
+      <label for="year">Year:</label>
+      <select id="year" class="form-select w-auto me-2" onchange="updateAttendance()">
+          {% for y in year_range %}
+              <option value="{{ y }}" {% if y == selected_year %}selected{% endif %}>{{ y }}</option>
+          {% endfor %}
+      </select>
+      <button class="btn btn-primary" onclick="updateAttendance()">Filter</button>
+  </div>
+
+  <!-- Attendance Table -->
+  <div class="table-responsive">
+      <table class="table table-bordered text-center">
+          <thead class="table-dark">
+              <tr>
+                  <th>Students</th>
+                  {% for day in days %}
+                      <th>{{ day }}</th>
+                  {% endfor %}
+                  {% comment %} <th>Actions</th> {% endcomment %}
+              </tr>
+          </thead>
+          <tbody>
+            {% for row in attendance_data %}
+            <tr>
+                {% for value in row %}
+                    <td>
+                        {% if value == "Present" %}
+                            ✅
+                        {% elif value == "Absent" %}
+                            ❌
+                        {% elif value == "Late" %}
+                            🕒
+                        {% elif value == "Holiday" %}
+                            🏖️
+                        {% elif value == "Halfday" %}
+                            ☀️
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+          </tbody>
+      </table>
+  </div>
+{% comment %} </div> {% endcomment %}
+
+
+<script>
+  function updateAttendance() {
+      const month = document.getElementById("month").value;
+      const year = document.getElementById("year").value;
+      window.location.href = `?month=${month}&year=${year}`;
+  }
+</script>
+{% endblock content %}
