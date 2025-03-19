@@ -1,4 +1,4 @@
-{% extends "teacher/base.html"%}
+{% extends "admin_panel/base.html"%}
 
 {% block content %}
 {% comment %} <div class="container mt-4"> {% endcomment %}
@@ -26,7 +26,7 @@
       <table class="table table-bordered text-center">
           <thead class="table-dark">
               <tr>
-                  <th>Students</th>
+                  <th>Teachers</th>
                   {% for day in days %}
                       <th>{{ day }}</th>
                   {% endfor %}

@@ -1,0 +1,45 @@
+{% extends "teacher/base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="card shadow-lg p-4">
+      <h2 class="text-center mb-4">Edit Attendance</h2>
+      
+      <form method="post">
+        {% csrf_token %}
+        
+        <!-- Student Roll Number -->
+        <div class="mb-3">
+          <label for="student_roll" class="form-label">Student Roll No:</label>
+          <input name="student_roll" type="text" id="student_roll" class="form-control" placeholder="Enter Roll Number" required>
+        </div>
+
+        <!-- Date with Calendar Picker -->
+        <div class="mb-3">
+          <label for="date" class="form-label">Date:</label>
+          <input name="date" type="date" id="date" class="form-control" required>
+        </div>
+
+        <!-- Attendance Status Dropdown -->
+        <div class="mb-3">
+          <label for="status" class="form-label">Attendance Status:</label>
+          <select name="status" id="status" class="form-select">
+            {% for choices in att_status %}
+              <option value="{{ choices }}" {% if choices == value %}selected{% endif %}>
+                {{ choices }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Update Attendance</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}

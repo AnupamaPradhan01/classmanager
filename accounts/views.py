@@ -60,3 +60,7 @@ def role_based_redirect(request):
 
 def home(request):
     return render(request, "accounts/home.html")
+
+
+def about(request):
+    return render(request, "accounts/about.html")
