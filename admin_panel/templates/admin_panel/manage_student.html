@@ -4,10 +4,9 @@
 <div class="table-container" >
     <h2 class="text-center mb-4">List of Students</h2>
   
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-responsive bg-white shadow-lg">
         <thead class="table-light">
             <tr>
-                <th><input type="checkbox"></th>
                 <th>Roll</th>
                 <th>Name</th>
                 <th>Gender</th>
@@ -24,7 +23,6 @@
         <tbody>
             {% for student in students %}
             <tr>
-                <td><input type="checkbox"></td>
                 <td>{{ student.roll_number }}</td>
                 <td>{{ student.first_name }} {{ student.last_name }}</td>
                 <td>{{ student.gender }}</td>

@@ -12,27 +12,34 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="sidebar">
-        <div class="profile">
-          <h5>Welcome Admin </h5>
-        </div>
-        <a href="{% url "admin_dashboard" %}"><i class="fas fa-home"></i> Home</a>
-        <a href="{% url "add_teacher" %}"><i class="fas fa-user-plus"></i> Add Teacher</a>
-        <a href="{% url "manage_teachers" %}"><i class="fas fa-user-cog"></i> Manage Teacher</a>
-        <a href="{% url 'add_student' %}"><i class="fas fa-user-plus"></i> Add Student</a>
-        <a href="{% url "manage_students" %}"><i class="fas fa-users"></i> Manage Student</a>
-        <a href="{% url "view_teacher_attendance" %}"><i class="fas fa-list"></i> View Attendance </a>
-        <a href="{% url "mark_teacher_attendance" %}"><i class="fas fa-list"></i> Mark Attendance </a>
-        <a href="{% url "edit_teacher_attendance" %}"><i class="fas fa-list"></i> Edit Attendance </a>
-        <a href="{% url "add_timetable" %}"><i class="fas fa-book"></i> Add Timetable</a>
-        <a href="#"><i class="fas fa-cogs"></i> Manage Course</a>
-        <a href="{% url "logout" %}"><i class="fas  fa-sign-out-alt "></i> Logout</a>
-    </div>
-     <!-- Main Content (Changes per Page) -->
-    <div class="content">
-      {% block content %}
-      {% endblock %}
-    </div>
+    <!-- Sidebar -->
+<div class="d-flex">
+  <div class="bg-dark text-white p-3 sidebar">
+      <div class="text-center mb-3">
+          <img src="{% static 'images/admin-profile.jpg' %}" alt="Admin" class="rounded-circle" width="80" height="80">
+          <h5 class="mt-2">Welcome Admin</h5>
+      </div>
+      <div class="sidebar-menu">
+          <a href="{% url 'admin_dashboard' %}" class="d-block text-white"><i class="fas fa-home"></i> Home</a>
+          <a href="{% url 'add_teacher' %}" class="d-block text-white"><i class="fas fa-user-plus"></i> Add Teacher</a>
+          <a href="{% url 'manage_teachers' %}" class="d-block text-white"><i class="fas fa-user-cog"></i> Manage Teacher</a>
+          <a href="{% url 'add_student' %}" class="d-block text-white"><i class="fas fa-user-plus"></i> Add Student</a>
+          <a href="{% url 'manage_students' %}" class="d-block text-white"><i class="fas fa-users"></i> Manage Student</a>
+          <a href="{% url 'view_teacher_attendance' %}" class="d-block text-white"><i class="fas fa-list"></i> View Attendance</a>
+          <a href="{% url 'mark_teacher_attendance' %}" class="d-block text-white"><i class="fas fa-list"></i> Mark Attendance</a>
+          <a href="{% url 'edit_teacher_attendance' %}" class="d-block text-white"><i class="fas fa-list"></i> Edit Attendance</a>
+          <a href="{% url 'add_timetable' %}" class="d-block text-white"><i class="fas fa-book"></i> Add Timetable</a>
+          <a href="{% url 'add_exam' %}" class="d-block text-white"><i class="fas fa-book"></i> Add Exam</a>
+          <a href="#" class="d-block text-white"><i class="fas fa-cogs"></i> Manage Course</a>
+          <a href="{% url 'logout' %}" class="d-block text-white"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content flex-grow-1 p-3">
+      {% block content %}{% endblock %}
+  </div>
+</div>
 
 </body>
 </html>

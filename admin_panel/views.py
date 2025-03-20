@@ -285,5 +285,5 @@ def delete_teacher(request, id):
         return HttpResponseBadRequest("Data does not exists.")
 
 
-def add_timetable(request):
-    return render(request, "admin_panel/add_timetable.html")
+# def add_timetable(request):
+#     return render(request, "admin_panel/add_timetable.html")

@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     "teacher",
     "admin_panel",
     "attendance",
+    "exam",
+    "timetable",
 ]
 
 MIDDLEWARE = [

@@ -1,9 +1,8 @@
 from django.urls import path
 
-from .views import (
+from .views import (  # add_timetable,
     add_student,
     add_teacher,
-    add_timetable,
     admin_dashboard,
     delete_student,
     delete_teacher,
@@ -23,5 +22,5 @@ urlpatterns = [
     path("manage-teachers/", manage_teachers, name="manage_teachers"),
     path("edit-teacher/<int:id>/", edit_teacher, name="edit_teacher"),
     path("delete-teacher/<int:id>/", delete_teacher, name="delete_teacher"),
-    path("add-timetable/", add_timetable, name="add_timetable"),
+    # path("add-timetable/", add_timetable, name="add_timetable"),
 ]

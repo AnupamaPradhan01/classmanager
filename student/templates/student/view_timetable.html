@@ -1,0 +1,24 @@
+{% extends "student/base.html" %}
+{% block content %}
+
+<a class="btn btn-success my-3" href="{{timetable_download_path}}">Download Timetable</a>
+
+<table class="table table-bordered">
+  <thead>
+      <tr>
+          {% for col in timetable.0.keys %}
+              <th>{{ col }}</th>
+          {% endfor %}
+      </tr>
+  </thead>
+  <tbody>
+      {% for row in timetable %}
+      <tr>
+          {% for value in row.values %}
+              <td>{{ value }}</td>
+          {% endfor %}
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

@@ -1,0 +1,106 @@
+{% extends "admin_panel/base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Manage Exams</h2>
+    <div class="row">
+        <!-- Exam Form Section -->
+        <div class="col-md-5">
+            <div class="card shadow-lg bg-white rounded">
+                <div class="card-body">
+                    <h4 class="card-title">Add Exam</h4>
+                    <form method="POST" class="row g-3">
+                        {% csrf_token %}
+                        
+                        <!-- Exam Name -->
+                        <div class="col-md-6">
+                            <label for="exam_name" class="form-label">Exam Name</label>
+                            <select id="exam_name" name="exam_name" class="form-control" required>
+                                <option value="">Select Exam</option>
+                                {% for key, value in exam_choices %}
+                                   <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Exam Date -->
+                        <div class="col-md-6">
+                            <label for="exam_date" class="form-label">Exam Date</label>
+                            <input type="date" id="exam_date" name="exam_date" class="form-control" required>
+                        </div>
+
+                        <!-- Start Time -->
+                        <div class="col-md-6">
+                            <label for="start_time" class="form-label">Start Time</label>
+                            <select id="start_time" name="start_time" class="form-control" required>
+                                <option value="">Select Time</option>
+                                {% for key, value in time_choices %}
+                                   <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- End Time -->
+                        <div class="col-md-6">
+                            <label for="end_time" class="form-label">End Time</label>
+                            <select id="end_time" name="end_time" class="form-control" required>
+                                <option value="">Select Time</option>
+                                {% for key, value in time_choices %}
+                                  <option value="{{ key }}">{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100">Add Exam</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exam List Section -->
+        <div class="col-md-7">
+            <div class="card shadow-lg bg-white rounded">
+                <div class="card-body">
+                    <h4 class="card-title">Exam List</h4>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Exam Name</th>
+                                <th>Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for exam in exams %}
+                            <tr>
+                                <td>{{ exam.get_exam_name_display }}</td>
+                                <td>{{ exam.exam_date }}</td>
+                                <td>{{ exam.get_start_time_display }}</td>
+                                <td>{{ exam.get_end_time_display }}</td>
+                                <td>
+                                  <a href="{% url 'edit_exam' exam.id %}" class="btn btn-warning btn-sm">
+                                      <i class="fas fa-edit fa-xs"></i> 
+                                  </a>
+                                  <a href="{% url 'delete_exam' exam.id %}" class="btn btn-danger btn-sm">
+                                      <i class="fas fa-trash-alt fa-xs"></i> 
+                                  </a>
+                              </td>
+                              
+                            </tr>
+                          {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No exams available</td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends "teacher/base.html" %}
+{% block content %}
+
+<!-- Exam List Section -->
+<div class="container-fluid">
+  <div class="card shadow-lg bg-white rounded">
+      <div class="card-body">
+          <h4 class="card-title">Exam List</h4>
+          <table class="table table-striped">
+              <thead>
+                  <tr>
+                      <th>Exam Name</th>
+                      <th>Date</th>
+                      <th>Start Time</th>
+                      <th>End Time</th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for exam in exams %}
+                  <tr>
+                      <td>{{ exam.get_exam_name_display }}</td>
+                      <td>{{ exam.exam_date }}</td>
+                      <td>{{ exam.get_start_time_display }}</td>
+                      <td>{{ exam.get_end_time_display }}</td>
+                    
+                  </tr>
+                {% empty %}
+                  <tr>
+                      <td colspan="5" class="text-center">No exams available</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+{% endblock content %}

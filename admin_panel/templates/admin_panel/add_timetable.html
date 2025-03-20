@@ -1,47 +1,37 @@
 {% extends "admin_panel/base.html" %}
 {% block content %}
-<div class="container">
-  <div class="header">
-      <h1>Time Table</h1>
-      <button class="btn">+ Add Time Table</button>
-  </div>
-  <div class="grid">
-      <div class="card">
-          <h2>Monday</h2>
-          <p><strong>09:00 - 09:45 AM</strong></p>
-          <p>Subject: Maths</p>
-          <p>Teacher: Jacquelin</p>
-      </div>
-      <div class="card">
-          <h2>Tuesday</h2>
-          <p><strong>09:00 - 09:45 AM</strong></p>
-          <p>Subject: Spanish</p>
-          <p>Teacher: Erickson</p>
-      </div>
-      <div class="card">
-          <h2>Wednesday</h2>
-          <p><strong>09:00 - 09:45 AM</strong></p>
-          <p>Subject: Computer</p>
-          <p>Teacher: Daniel</p>
-      </div>
-      <div class="card">
-          <h2>Thursday</h2>
-          <p><strong>09:00 - 09:45 AM</strong></p>
-          <p>Subject: Physics</p>
-          <p>Teacher: Teresa</p>
-      </div>
-      <div class="card">
-          <h2>Friday</h2>
-          <p><strong>09:00 - 09:45 AM</strong></p>
-          <p>Subject: English</p>
-          <p>Teacher: Hellana</p>
-      </div>
-      <div class="card">
-          <h2>Saturday</h2>
-          <p><strong>09:00 - 09:45 AM</strong></p>
-          <p>Subject: English</p>
-          <p>Teacher: Hellana</p>
-      </div>
-  </div>
+<div class="container mt-4">
+    <h2 class="mb-4">Upload Timetable</h2>
+    
+    <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="class_no" class="form-label">Class</label>
+            <select name="class_no" id="class_no" class="form-select" required>
+                <option value="">Select Class</option>
+                {% for value, label in CLASS_CHOICES %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="section" class="form-label">Section</label>
+            <select name="section" id="section" class="form-select" required>
+                <option value="">Select Section</option>
+                {% for value, label in SECTION_CHOICES %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="timetable_file" class="form-label">Upload Timetable (Excel only)</label>
+            <input type="file" name="timetable_file" id="timetable_file" class="form-control" accept=".xls, .xlsx" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
 </div>
-{% endblock content%}
+{% endblock content %}
