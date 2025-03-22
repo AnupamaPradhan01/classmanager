@@ -2,6 +2,7 @@ from admin_panel.decorators import admin_required
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect, render
+from exam.models import Exam
 from student.models import CLASS_CHOICES, GENDER_CHOICES, SECTION_CHOICES, Student
 from teacher.models import (
     CLASS_CHOICES,
@@ -11,6 +12,7 @@ from teacher.models import (
     SUBJECT_CHOICES,
     Teacher,
 )
+from timetable.models import Timetable
 
 User = get_user_model()
 
@@ -21,15 +23,15 @@ def admin_dashboard(request):
     if user.role.lower() == "admin":  # Handle case sensitivity
         total_students = Student.objects.count()
         total_teachers = Teacher.objects.count()
-        # total_courses = Course.objects.count()
-        # total_subjects = Subject.objects.count()
+        total_exams = Exam.objects.count()
+        total_timetable = Timetable.objects.count()
 
         context = {
             "user": request.user,
             "total_students": total_students,
             "total_teachers": total_teachers,
-            # "total_courses": total_courses,
-            # "total_subjects": total_subjects,
+            "total_exams": total_exams,
+            "total_timetable": total_timetable,
         }
         return render(request, "admin_panel/dashboard.html", context)
 
@@ -286,4 +288,5 @@ def delete_teacher(request, id):
 
 
 # def add_timetable(request):
+#     return render(request, "admin_panel/add_timetable.html")
 #     return render(request, "admin_panel/add_timetable.html")

@@ -3,7 +3,7 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid mt-4">
   <div class="row">
       <div class="col-md-3">
           <div class="card text-white bg-primary p-3">
@@ -17,16 +17,16 @@
       </div>
       <div class="col-md-3">
           <div class="card text-white bg-warning p-3">
-              <h4>Total Courses: 1</h4>
+              <h4>Total Exams: {{total_exams}}</h4>
           </div>
       </div>
       <div class="col-md-3">
           <div class="card text-white bg-danger p-3">
-              <h4>Total Subjects: 4</h4>
+              <h4>Total Timetable: {{total_timetable}}</h4>
           </div>
       </div>
   </div>
-  <div class="row">
+  <div class="row mt-5">
       <div class="col-md-6">
           <canvas id="studentsChart"></canvas>
       </div>
@@ -37,13 +37,15 @@
 </div>
 
 <script>
+    const total_students = {{total_students}}
+    const total_teachers = {{total_teachers}}
   const ctx1 = document.getElementById('studentsChart').getContext('2d');
   new Chart(ctx1, {
       type: 'pie',
       data: {
-          labels: ['Students', 'Staff'],
+          labels: ['Students', 'Teachers'],
           datasets: [{
-              data: [6, 4],
+              data: [total_students, total_teachers],
               backgroundColor: ['#007bff', '#28a745']
           }]
       },

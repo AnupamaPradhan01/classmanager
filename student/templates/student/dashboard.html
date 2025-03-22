@@ -9,7 +9,7 @@
         <div class="col-md-3">
             <div class="card text-white bg-info shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">3</h5>
+                    <h5 class="card-title">{{attendance_count}}</h5>
                     <p class="card-text">Total Attendance</p>
                 </div>
             </div>
@@ -17,7 +17,7 @@
         <div class="col-md-3">
             <div class="card text-white bg-success shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">66%</h5>
+                    <h5 class="card-title">{{present_percentage}} %</h5>
                     <p class="card-text">Percentage Present</p>
                 </div>
             </div>
@@ -25,7 +25,7 @@
         <div class="col-md-3">
             <div class="card text-white bg-danger shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">34%</h5>
+                    <h5 class="card-title">{{absent_percentage}} %</h5>
                     <p class="card-text">Percentage Absent</p>
                 </div>
             </div>
@@ -33,8 +33,8 @@
         <div class="col-md-3">
             <div class="card text-white bg-warning shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">4</h5>
-                    <p class="card-text">Total Subjects</p>
+                    <h5 class="card-title">{{exam_count}}</h5>
+                    <p class="card-text">Total Exams</p>
                 </div>
             </div>
         </div>
@@ -66,13 +66,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 // Attendance Pie Chart
+
+const present_count = {{present_count}}
+const absent_count = {{absent_count}}
 var ctx1 = document.getElementById('attendanceChart').getContext('2d');
 new Chart(ctx1, {
 type: 'doughnut',
 data: {
     labels: ['Present', 'Absent'],
     datasets: [{
-        data: [66, 34],
+        data: [present_count, absent_count],
         backgroundColor: ['#28a745', '#dc3545']
     }]
 },

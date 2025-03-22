@@ -1,9 +1,9 @@
 {% extends "admin_panel/base.html" %}
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-4">Upload Timetable</h2>
+<div class="container-fluid mt-4">
+    <h2 class="text-center mb-4">Upload Timetable</h2>
     
-    <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+    <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-white shadow-lg">
         {% csrf_token %}
         
         <div class="mb-3">

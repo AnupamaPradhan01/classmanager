@@ -1,12 +1,11 @@
 {% extends 'admin_panel/base.html' %}
 
 {% block content%}
-<div class="container">
     <h3 class="text-center mb-4">Mark Attendance</h3>
 
     <form method="POST">
         {% csrf_token %}
-        <table class="table table-hover table-bordered">
+        <table class="table table-hover table-responsive">
             <thead class="table-primary">
                 <tr>
                     <th>Teacher Id</th>
@@ -52,6 +51,7 @@
             <button type="submit" class="btn btn-primary">Submit Attendance</button>
         </div>
     </form>
+
 
 
 

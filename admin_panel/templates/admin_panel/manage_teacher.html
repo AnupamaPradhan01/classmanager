@@ -1,8 +1,8 @@
 {% extends "admin_panel/base.html" %}
 {% block content%}
-<div class="container mt-5">
+<div class="container-fluid mt-5">
   <h3 class="mb-4">Teachers List</h3>
-  <table class="table table-bordered table-responsive  bg-white shadow-lg">
+    <table class="table table-bordered table-responsive  bg-white shadow-lg">
       <thead class="table-light">
           <tr>
               <th>Id</th>
@@ -48,17 +48,17 @@
                 </a>
                 <!-- Edit and Delete Actions -->
                 <a href="{% url 'edit_teacher' teacher.id %}" class="d-block"><i class="fas fa-edit text-success"></i></a>
-                <a href="{% url "delete_teacher" teacher.id %}" class="d-block"><i class="fas fa-trash-alt text-danger delete"></i></a>
+                <a href="{% url 'delete_teacher' teacher.id %}" class="d-block"><i class="fas fa-trash-alt text-danger delete"></i></a>
             </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="13" class="text-center">No students found.</td>
+            <td colspan="8" class="text-center">No teachers found.</td>
         </tr>
         {% endfor %}
           
       </tbody>
-  </table>
+  </table> 
 </div>
 
 <!-- Student Info Modal -->
