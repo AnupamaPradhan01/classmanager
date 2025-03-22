@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "attendance",
     "exam",
     "timetable",
+    "assignment",
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # Global static files
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # For production
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

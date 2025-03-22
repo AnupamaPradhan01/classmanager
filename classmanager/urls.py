@@ -30,6 +30,10 @@ urlpatterns = [
     path("attendance/", include("attendance.urls")),
     path("exam/", include("exam.urls")),
     path("timetable/", include("timetable.urls")),
+    path("assignment/", include("assignment.urls")),
 ]
 if settings.DEBUG:  # Serve media files only in development mode
+    urlpatterns += static(
+        settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0]
+    )
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

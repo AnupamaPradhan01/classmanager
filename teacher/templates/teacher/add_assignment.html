@@ -1,0 +1,88 @@
+{% extends "teacher/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Add Assignment</h2>
+    
+    <!-- Assignment Form -->
+    <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="file" class="form-label">Upload File (Optional)</label>
+            <input type="file" class="form-control" id="file" name="file">
+        </div>
+        <div class="mb-3">
+            <label for="class_nu" class="form-label">Class</label>
+            <select class="form-select" id="class_nu" name="class_nu" required>
+                <option selected disabled>Select Class</option>
+                {% for value, label in CLASS_CHOICES %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="section" class="form-label">Section</label>
+            <select class="form-select" id="section" name="section" required>
+                <option selected disabled>Select Section</option>
+                {% for value, label in SECTION_CHOICES %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="deadline" class="form-label">Deadline</label>
+            <input type="date" class="form-control" id="deadline" name="deadline" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Assignment</button>
+    </form>
+
+    <!-- Display Assignments -->
+    <h3 class="mt-5">Submitted Assignments</h3>
+    <table class="table table-striped table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Class</th>
+                <th>Section</th>
+                <th>Deadline</th>
+                <th>File</th>
+                <th>Submissions</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+            <tr>
+                <td>{{ assignment.title }}</td>
+                <td>{{ assignment.description }}</td>
+                <td>{{ assignment.class_nu }}</td>
+                <td>{{ assignment.section }}</td>
+                <td>{{ assignment.deadline }}</td>
+                <td>
+                    {% if assignment.file %}
+                    <a href="{{ assignment.file.url }}" target="_blank" class="btn btn-sm btn-success">View File</a>
+                    {% else %}
+                    No File
+                    {% endif %}
+                </td>
+                <td><a href="{% url "teacher_view_student_assignments" assignment.id  %}" class="btn btn-primary btn-sm">Submissions</a></td>
+                <td>{{ assignment.created_at|date:"d M Y, H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No assignments available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

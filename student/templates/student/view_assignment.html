@@ -1,0 +1,73 @@
+{% extends "student/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Add Assignment</h2>
+
+    <!-- Display Assignments -->
+    <h3 class="mt-5">Submitted Assignments</h3>
+    <table class="table table-striped table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>File</th>
+                <th>Action</th> <!-- Upload Button -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for assignment in assignments %}
+            <tr>
+                <td>{{ assignment.title }}</td>
+                <td>{{ assignment.description }}</td>
+                <td>{{ assignment.deadline }}</td>
+                <td>
+                    {% if assignment.file %}
+                    <a href="{{ assignment.file.url }}" target="_blank" class="btn btn-sm btn-success">View File</a>
+                    {% else %}
+                    No File
+                    {% endif %}
+                </td>
+                <td>
+                    {% if assignment.id in uploaded_assignments %}
+                        <button class="btn btn-secondary btn-sm" disabled>Uploaded</button>
+                    {% else %}
+                        <!-- Upload Button to Open Modal -->
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadModal{{ assignment.id }}">
+                            Upload
+                        </button>
+                    {% endif %}
+                </td>
+            </tr>
+
+            <!-- Bootstrap Modal for File Upload -->
+            <div class="modal fade" id="uploadModal{{ assignment.id }}" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="uploadModalLabel">Upload Assignment</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" enctype="multipart/form-data" action="{% url 'student_upload_assignment' assignment.id %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <label for="file" class="form-label">Choose File</label>
+                                    <input type="file" class="form-control" name="file" required>
+                                </div>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No assignments available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
